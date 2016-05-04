@@ -3048,6 +3048,7 @@ function submit_data() {
 								localStorage.mar_distrib_data="";								
 								//----- marchandising end
 								
+								upload_salfie();
 								
 								localStorage.dataSubmit=1;
 								buttonCheck();
