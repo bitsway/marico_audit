@@ -6,13 +6,12 @@
 var apipath='http://e3.businesssolutionapps.com/maricoaudit/syncmobile_schedule/';
 var apipath_image = 'http://e3.businesssolutionapps.com/maricoaudit/';
 
+
 // local
 //var apipath='http://127.0.0.1:8000/marico/syncmobile_schedule/';
 //var apipath_image = 'http://127.0.0.1:8000/marico/';
 
 
-//var apipath='http://e3.businesssolutionapps.com/unilever/syncmobile_schedule/';
-//var apipath_image = 'http://e3.businesssolutionapps.com/unilever/';
 
  
 var step_flag=0; //1 fd , 2 qpds, 3 gift
@@ -3796,7 +3795,7 @@ function uploadPhoto(imageURI, imageName) {
 
 //ft.upload(imageURI, encodeURI("http://127.0.0.1:8000/unilever/syncmobile/fileUploader/"),win,fail,options);
 
- ft.upload(imageURI, encodeURI("http://e4.businesssolutionapps.com/maricoaudit/syncmobile/fileUploader/"),win,fail,options);
+ ft.upload(imageURI, encodeURI("http://e4.businesssolutionapps.com/marico_image/syncmobile/fileUploader/"),win,fail,options);
 }
 
 function win(r) {
