@@ -3519,7 +3519,7 @@ function upload_salfie(){
 	}
 	
 	
-	//upload_shop()
+	upload_shop()
 
 }
 
@@ -3544,7 +3544,7 @@ function upload_shop(){
 			//$("#submit_data").html("");				
 
 	}
-	//upload_unpaid()
+	upload_unpaid()
 	//buttonCheck();
 
 }
@@ -3574,7 +3574,7 @@ function upload_unpaid(){
 	}
 	
 	
-	//upload_qpds();
+	upload_qpds();
 
 }
 
@@ -3757,19 +3757,19 @@ function upload_qpds(){
 function check_step() {	
 	if (localStorage.step_flag==0){
 		upload_salfie();		
-		//alert ('chk- 1')
+		alert ('chk- 1')
 	}
 	if (localStorage.step_flag==1){
 		upload_shop();
-		//alert ('chk- 2')
+		alert ('chk- 2')
 	}
 	if (localStorage.step_flag==2){
 		upload_unpaid();
-		//alert ('chk- 3')
+		alert ('chk- 3')
 	}
 	if (localStorage.step_flag==3){
 		upload_qpds();
-		//alert ('chk- 4')
+		alert ('chk- 4')
 	}
 
 }
@@ -3781,9 +3781,9 @@ function check_step() {
 
 function uploadPhoto(imageURI, imageName) {
  
- 	//alert(imageURI+'--'+imageName)
+ 	alert(imageURI+'--'+imageName)
   
-	//win()
+	
   var options = new FileUploadOptions();
   options.fileKey="upload";
 //  options.fileName=imageURI.substr(imageURI.lastIndexOf('/')+1);
@@ -3810,14 +3810,14 @@ function win(r) {
 	
 		
 	if (localStorage.step_flag==1){  // Shop
-		//alert('win-1')
+		alert('win-1')
 		$("#submit_data").html("Shop Sync Completted");
 		localStorage.shopdataSubmit=1;
 		upload_shop();
 		//buttonCheck();
 	}
 	if (localStorage.step_flag==2){  // unpaid
-		//alert('win-2')
+		alert('win-2')
 		$("#submit_data").html("Unpaid Sync Completted");
 		localStorage.unpaiddataSubmit=1;
 		upload_unpaid();
@@ -3825,7 +3825,7 @@ function win(r) {
 	}
 	
 	if (localStorage.step_flag==3){  // Paid
-		//alert('win-3')
+		alert('win-3')
 		$("#submit_data").html("Paid Display Sync Completted");
 		localStorage.qpdsdataSubmit=1;
 		upload_qpds();
@@ -3833,7 +3833,7 @@ function win(r) {
 	}
 
 	if (localStorage.step_flag==6){  // Gift
-		//alert('win-4')
+		alert('win-4')
 		$("#submit_data").html("All Sync Completted");
 		localStorage.shopdataSubmit=1;
 		cancel_outlet()
