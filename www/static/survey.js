@@ -3783,8 +3783,8 @@ function uploadPhoto(imageURI, imageName) {
  
  	//alert(imageURI+'--'+imageName)
   
-	win()
-/*  var options = new FileUploadOptions();
+	//win()
+  var options = new FileUploadOptions();
   options.fileKey="upload";
 //  options.fileName=imageURI.substr(imageURI.lastIndexOf('/')+1);
   options.fileName=imageName;
@@ -3801,7 +3801,7 @@ function uploadPhoto(imageURI, imageName) {
 
 //ft.upload(imageURI, encodeURI("http://127.0.0.1:8000/marico/syncmobile_schedule/fileUploader/"),win,fail,options);
 
- ft.upload(imageURI, encodeURI("http://e4.businesssolutionapps.com/marico_image/syncmobile/fileUploader/"),win,fail,options);*/
+ ft.upload(imageURI, encodeURI("http://e4.businesssolutionapps.com/marico_image/syncmobile/fileUploader/"),win,fail,options);
 }
 
 function win(r) {
