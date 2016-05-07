@@ -419,7 +419,7 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
 		    
 			<div  data-role="content" style="height:90%" >  
             <span style=" font-size:5"> <br/><br/></span>
-                
+                <input name="startTime" id="startTime"  value="" type="hidden">
                 <div id="outletString"> </div>	
 
 
@@ -530,7 +530,7 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
             
 
 				<div id="mhskus"></div>
-                <input name="startTime" id="startTime"  value="" type="hidden">
+                <!--<input name="startTime" id="startTime"  value="" type="hidden">-->
                 <!--<div id="mhskus1"></div>-->
                 </br></br>
 				<a data-role="button"  onClick="mhskus_ready_data()" >Next</a>
@@ -614,7 +614,8 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
             </div>
 		    
 			<div  data-role="content" style="height:90%" >
-            <!--<div id="qpds"></div>-->
+             <a onClick="showPaidDisplay()" data-role="button" class="ui-btn ui-btn-inline" style="float:right;">New</a>
+            <div id="qpds"></div>
 				</br></br>
                 <a data-role="button" onClick="qpds_ready_data();" >Next</a>
 				<br/><br/></br></br></br></br></br></br><br/><br/><br/>
@@ -843,6 +844,7 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
 		  
 		  <div id="salfiePageOutletNameID"> </div>		  
 		  	<br/><br/>
+            
               <a data-role="button" href="#" onClick="get_salfie()" >Take Salfie </a>
                 <img id="salfie_image_div" height="100px" width="100px"  src="" alt="Place" />
                     <input type="hidden" name="salfie_image_div_hidden" id="salfie_image_div_hidden" value="" >
@@ -899,7 +901,7 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
 
  <!-- ============================paid display Start============================-->
  
-     <div data-theme="c" data-role="page" id="paidDisplayPage">
+     <!--<div data-theme="c" data-role="page" id="paidDisplayPage">
 		<div data-theme="c" data-role="header" data-position="fixed" >
 			    <a style="height:18px" onClick="munu_page_check()"  class="ui-btn-left ui-btn-icon-notext"><img src="header_logo.png"></a>
                 <a style="height:18px" data-rel="back" data-iconpos="left" class="ui-btn-right"><img src="back1.png"></a>
@@ -910,7 +912,7 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
 
 			<div  data-role="content" style="height:90%" >
             <a onClick="showPaidDisplay()" data-role="button" class="ui-btn ui-btn-inline" style="float:right;">New</a>
-            <div id="qpds"></div>
+           <div id="qpds"></div>
 				</br></br>
                 <a data-role="button" onClick="qpds_ready_data();" >Next</a>
 				<br/><br/></br></br></br></br></br></br><br/><br/><br/>
@@ -920,7 +922,7 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
                 <br/><br/><br/>
 	  </div>
 
-	</div>
+	</div>-->
         
     <!--=====================paid display=========================-->
     
@@ -1049,7 +1051,7 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
  
   <!-- ============================promotion Start============================-->
     
-    <div data-theme="c" data-role="page" id="promotionPage">
+<!--    <div data-theme="c" data-role="page" id="promotionPage">
 		<div data-theme="c" data-role="header" data-position="fixed" >
 			    <a style="height:18px" onClick="munu_page_check()"  class="ui-btn-left ui-btn-icon-notext"><img src="header_logo.png"></a>
                 <a style="height:18px" data-rel="back" data-iconpos="left" class="ui-btn-right"><img src="back1.png"></a>
@@ -1068,7 +1070,7 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
 					<img id="promotion_image_div" height="100px" width="100px"  src="" alt="Place" />
 						<input type="text" name="promotion_image_div_hidden" id="promotion_image_div_hidden" value="" >
 						<input type="text" name="promotion_image_name_hidden" id="promotion_image_name_hidden" value="" >
-					</div> <!--shop_show-->			
+					</div>		
 						</br></br>
 					
 				<a data-role="button" onClick="promotion_next_page();" >Next</a>
@@ -1080,7 +1082,7 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
                 <br/><br/><br/>
 	  </div>
 
-	</div>
+	</div>-->
         
     <!--=====================promotion=========================-->
 
