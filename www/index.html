@@ -306,7 +306,8 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
 				
 				<font color="#CCFFCC" face="Arial, Helvetica, sans-serif" size="-1">       
 				<a data-role="button" onClick="marketPJP_check()" ><img src="market_pjp.png"></a>
-               <a data-role="button" href="#noticePage" onClick="test()" ><img src="notice_icon.png"></a>
+               <a data-role="button" onClick="chkNotice()" ><img src="notice_icon.png"></a>
+               <a data-role="button" onClick="attandance()" >Attendance</a>
 				
                 </font>
             </div>
@@ -318,7 +319,7 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
     
       <!--  ================= login page=================  -->
         
-        <div data-theme="c" data-role="page" id="login"   >
+        <div data-theme="c" data-role="page" id="login" >
             <div data-theme="c" data-role="header" data-position="fixed" >
 			
 			   <a style="height:18px;"   onClick="munu_page_check()"  class="ui-btn-left ui-btn-icon-notext"><img src="header_logo.png"></a>
@@ -349,7 +350,7 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
             </div>
 			
 		
-			<div align="right"  style="color:#A4C5D9; width:100%; ">Version:00010;20160502.1</div>
+			<div align="right"  style="color:#A4C5D9; width:100%; ">Version:00010;20160515.1</div>
         </div><!--/login page-->
         
 
@@ -674,9 +675,9 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
                 <div id="outlet_info_msg"   style="color:#006A6A; font-size:18px;"> </div>
                 </br>
                 </br>
-				Location:
-				<input name="lat" id="lat" placesholder="" value="" type="text" readonly>
-			   <input name="long" id="long" placeholder="" value="" type="text" readonly>
+				<!--Location:-->
+				<input name="lat" id="lat" placesholder="" value="" type="hidden" readonly>
+			   <input name="long" id="long" placeholder="" value="" type="hidden" readonly>
 				
 			<div id="location_button">
 			<a data-role="button" onClick="getlocationand_askhelp();">Confirm Location</a>
@@ -764,8 +765,8 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
             </div>
 		    
 			<div  data-role="content" style="height:90%" >
-            
-           <!-- <div id="notice">Notice</div>-->
+            <br/><br/>
+            <div id="notice_list_show"></div>
                
                <!--<div id="submit_data"></div>-->
                 <br/><br/>
@@ -781,7 +782,7 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
 		<div data-theme="c" data-role="header" data-position="fixed" >
 			    <a style="height:18px" onClick="munu_page_check()"  class="ui-btn-left ui-btn-icon-notext"><img src="header_logo.png"></a>
                 <a style="height:18px" data-rel="back" data-iconpos="left" class="ui-btn-right"><img src="back1.png"></a>
-                <h3>Outlet</h3>
+                <h3>Outside/Signboard</h3>
             </div>
 		    
 			<div  data-role="content" style="height:90%" >
@@ -793,7 +794,7 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
 					  <tr>
 						<td><a data-role="button" href="#" onClick="get_pic_shop()" >Take Picture </a></td></tr>
 					</table>
-					<img id="shop_image_div" height="100px" width="100px"  src="" alt="Place" />
+					<img id="shop_image_div" height="100px" width="100px"  src="" alt="Outside Image" />
 						<input type="hidden" name="shop_image_div_hidden" id="shop_image_div_hidden" value="" >
 						<input type="hidden" name="shop_image_name_hidden" id="shop_image_name_hidden" value="" >
 					</div> <!--shop_show-->			
@@ -837,16 +838,27 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
 		<div data-theme="c" data-role="header" data-position="fixed" >
 			    <a style="height:18px" onClick="munu_page_check()"  class="ui-btn-left ui-btn-icon-notext"><img src="header_logo.png"></a>
                 <a style="height:18px" data-rel="back" data-iconpos="left" class="ui-btn-right"><img src="back1.png"></a>
-                <h3>Salfie</h3>
+                <h3>Selfie</h3>
             </div>
 		    
 			<div  data-role="content" style="height:90%" >
 		  
 		  <div id="salfiePageOutletNameID"> </div>		  
 		  	<br/><br/>
-            
-              <a data-role="button" href="#" onClick="get_salfie()" >Take Salfie </a>
-                <img id="salfie_image_div" height="100px" width="100px"  src="" alt="Place" />
+            <ul data-role="listview" data-inset="true">               
+                <li style="background-color:#F2F2F2;">Attendance Type</li>                
+                <li class="ui-field-contain">
+                    <fieldset data-role="controlgroup" >
+                        <input name="attendance" id="1" value="Day Start" type="radio">
+                        <label for="1">Day Start</label>
+                        <input name="attendance" id="2" value="Day End" type="radio">
+                        <label for="2">Day End</label>                                                              
+                    </fieldset> 
+                  </li>
+              </ul>           
+              <br/>
+              <a data-role="button" href="#" onClick="get_salfie()" >Take Selfie </a>
+                <img id="salfie_image_div" height="100px" width="100px"  src="" alt="Image" />
                     <input type="hidden" name="salfie_image_div_hidden" id="salfie_image_div_hidden" value="" >
                     <input type="hidden" name="salfie_image_name_hidden" id="salfie_image_name_hidden" value="" >
 				
@@ -855,7 +867,7 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
 				
 				<br/><br/></br></br></br></br></br></br><br/><br/><br/>
 				
-              <div id="" style="color:#FF0; font-family:Arial, Helvetica, sans-serif; text-decoration:none; font-size:12px; font-style:normal; font-weight:lighter; text-shadow:none"  align="center"> </div>
+              <div id="errSelfie" style="color:#CF4434; font-family:Arial, Helvetica, sans-serif; text-decoration:none; font-size:12px; font-style:normal; font-weight:lighter; text-shadow:none"  align="center"> </div>
                 <br/><br/>
                 <br/><br/><br/>
 	  </div>
@@ -880,7 +892,7 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
 		  	 <div id="shop_show">
              	   <br/>
 				  <a data-role="button" href="#" onClick="get_pic_unpaid_display()" >Take Picture </a>
-					<img id="unpaid_image_div" height="100px" width="100px"  src="" alt="Place" />
+					<img id="unpaid_image_div" height="100px" width="100px"  src="" alt="Unpaid Image" />
 						<input type="hidden" name="unpaid_image_div_hidden" id="unpaid_image_div_hidden" value="" >
 						<input type="hidden" name="unpaid_image_name_hidden" id="unpaid_image_name_hidden" value="" >
 					</div> <!--shop_show-->			
@@ -965,14 +977,21 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
 		  
 		  <div id="posmPageOutletNameID"> </div>
           
-          <select name="select_posm" id="select_posm" >
-            <option value="">Select POSM</option>
-            <option value="Dangler">Dangler</option>
-          </select>
+          <table id="tblPosm" class="ui-body-d ui-shadow table-stripe ui-responsive" data-role="table" data-theme="d"  data-mode="display:none" >
+          	<tr>
+            	<td width="60%" >
+                	<div id="mar_cmbo_show"></div>                	
+          		</td>
+                <td width="30%" ><input id="posm_qty" name="posm_Qty" type="number" style="height:42px; font-size:14px;" /></td>
+                <td width="10%"><a data-role="button"  onClick="add_posm()" >ADD </a></td>
+            </tr>
+          
+          </table>
+          
 		  
 		  	 <div id="shop_show">
 				  <a data-role="button" href="#" onClick="get_pic_posm()" >Take Picture </a>
-					<img id="posm_image_div" height="100px" width="100px"  src="" alt="Place" />
+					<img id="posm_image_div" height="100px" width="100px"  src="" alt="Image" />
 						<input type="hidden" name="posm_image_div_hidden" id="posm_image_div_hidden" value="" >
 						<input type="hidden" name="posm_image_name_hidden" id="posm_image_name_hidden" value="" >
 					</div> <!--shop_show-->			

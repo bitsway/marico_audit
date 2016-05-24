@@ -3,7 +3,7 @@
 // Put your custom code here
 
 // online
-var apipath='http://e3.businesssolutionapps.com/maricoaudit/syncmobile_schedule/';
+var apipath='http://e3.businesssolutionapps.com/maricoaudit/syncmobile_schedule_160515/';
 var apipath_image = 'http://e3.businesssolutionapps.com/maricoaudit/';
 
 
@@ -103,28 +103,74 @@ function first_page(){
 }
 
 
+// notice
+
+function chkNotice(){
+	$('#notice_list_show').empty();
+	$('#notice_list_show').html(localStorage.notice_list_str).trigger('create');
+	
+	$.mobile.navigate("#noticePage");
+	
+	}
+
+
+
+
 //================ salfie
 
-function salfie_next_page(){
-	
-		salfie_ready_data();
-		var salfie_image_name=$("#salfie_image_name_hidden").val();
-		var salfie_image_path=$("#salfie_image_div_hidden").val();
-	
-	
-	//alert(shop_image_path);
-	//if (shop_image_name.length < 10){
-	if (salfie_image_path.length < 10){
-			var url = "#salfiePage";
-			$.mobile.navigate(url);
-	}else{
-		
-	
-		var url = "#routePage";
-		$.mobile.navigate(url);
-		
-		$('#routePage').trigger('create');
+function attandance(){
+	$("input:radio").removeAttr('checked');
+	$.mobile.navigate("#salfiePage");
 	}
+
+
+function salfie_next_page(){
+		
+		var attendance=$("input[name='attendance']:checked").val();
+		
+		if (attendance=="" || attendance==undefined){
+			$("#errSelfie").text("Check Attendance Type");		
+		}else{		
+			salfie_ready_data();
+			var salfie_image_name=$("#salfie_image_name_hidden").val();
+			var salfie_image_path=$("#salfie_image_div_hidden").val();
+					
+			//alert(shop_image_path);
+			//if (shop_image_name.length < 10){
+			if (salfie_image_path.length < 10){
+					var url = "#salfiePage";
+					$.mobile.navigate(url);
+			}else{												
+				$("#errSelfie").text("");
+							
+				
+				//alert(apipath+'syncAttendanceData?cid='+localStorage.cid+'&cm_id='+localStorage.cm_id+'&cm_pass='+localStorage.cm_pass+'&synccode='+localStorage.synccode+'&salfie_data='+salfie_image_name+'&attendance='+encodeURIComponent(attendance));
+				
+				$.ajax({
+				type: 'POST',
+				url: apipath+'syncAttendanceData?cid='+localStorage.cid+'&cm_id='+localStorage.cm_id+'&cm_pass='+localStorage.cm_pass+'&synccode='+localStorage.synccode+'&salfie_data='+salfie_image_name+'&attendance='+encodeURIComponent(attendance),
+				 success: function(result) {	
+						
+						if (result==''){
+							alert ('Sorry Network not available');
+						}
+						else{
+							
+							uploadPhoto(salfie_image_path, image_name_salfie);
+							
+							var url = "#routePage";
+							$.mobile.navigate(url);
+							
+							$('#routePage').trigger('create');
+							
+							
+						}
+				 	}
+				 })
+				
+				
+			}
+		}
 	
 	
 }
@@ -152,6 +198,8 @@ function salfie_page_set() {
 	//alert (image_name)
 	var image = document.getElementById('salfie_image_div');
     image.src = salfie_image_path;
+	
+	
 		
 	/*if (localStorage.shop_next_flag==1){
 		$('#shop_show').find('input, textarea, button, select').attr('disabled','disabled');
@@ -309,67 +357,25 @@ function unpaid_page_set() {
 
 
 
-//================ paid not use
 
-
-/*function paid_display_next_page(){
-	
-		paid_ready_data();
-		var paid_image_name=$("#paid_image_name_hidden").val();
-		var paid_image_path=$("#paid_image_div_hidden").val();
-	
-	
-	//alert(paid_image_path.length);
-	//if (shop_image_name.length < 10){
-	if (paid_image_path.length < 10){
-			var url = "#paidDisplayPage";
-			$.mobile.navigate(url);
-	}else{
-		$("#posmPageOutletNameID").empty();
-		$("#posmPageOutletNameID").append(localStorage.outletIDnameShow).trigger('create');
-	
-		var url = "#posmPage";
-		$.mobile.navigate(url);
-		
-		$('#posmPage').trigger('create');
-	}
-	
-	
-}*/
-
-
-/*function paid_ready_data() { 
-	var paid_data="";
-	var image_name=$("#paid_image_name_hidden").val();
-	var paid_image_path=$("#paid_image_div_hidden").val();
-	paid_data=paid_data+image_name+'fdfd'+paid_image_path+'rdrd';
-	localStorage.paid_data_ready=paid_data
-	
-	
-	paid_page_set();
-}
-*/
-/*function paid_page_set() { 
-	var paid_data =  localStorage.paid_data_ready.replace("rdrd","");
-	var paid_array =  paid_data.split('fdfd');
-	var image_name = paid_array[0];
-	var paid_image_path = paid_array[1];
-	//alert (image_name)
-	$("#paid_image_name_hidden").val(image_name);
-	$("#paid_image_div_hidden").val(paid_image_path);
-	
-	//alert (image_name)
-	var image = document.getElementById('paid_image_div');
-    image.src = paid_image_path;	
-	
-}
-*/
 
 //================ posm
 
-
-function posm_next_page(){
+function add_posm(){
 	
+	posm_name=$("#select_posm").val();
+	posm_qty=$("#posm_qty").val();	
+	
+	trStr='<tr><td width="60%" name="posm_name" style="padding:20px;">'+posm_name+'</td><td width="30%" style="padding:20px;" name="posm_qty">'+posm_qty+'</td><td width="10%"><button data-role="button" onClick="$(this).parent().parent().remove();">X</button></td></tr>'
+	
+	$("#tblPosm").append(trStr).trigger('create');
+	
+	}
+
+
+
+
+function posm_next_page(){		
 		posm_ready_data();
 		var posm_image_name=$("#posm_image_name_hidden").val();
 		var posm_image_path=$("#posm_image_div_hidden").val();
@@ -384,10 +390,10 @@ function posm_next_page(){
 		$("#competitorPageOutletNameID").empty();
 		$("#competitorPageOutletNameID").append(localStorage.outletIDnameShow).trigger('create');
 	
-		var url = "#competitorPage";
+		var url = "#surveyPage";
 		$.mobile.navigate(url);
 		
-		$('#posmPage').trigger('create');
+		$('#surveyPage').trigger('create');
 	}
 	
 	
@@ -396,21 +402,32 @@ function posm_next_page(){
 
 function posm_ready_data() { 
 	var posm_data="";
+	$("#tblPosm tr:gt(0)").each(function(index){			 
+		
+		 posm_name = $('[name="posm_name"]').eq(index).text();
+		 posm_qty = $('[name="posm_qty"]').eq(index).text();
+		 
+		 if (posm_data==""){
+			posm_data=posm_name+'<fdfd>'+posm_qty;			
+		}else{
+			posm_data+='<rdrd>'+posm_name+'<fdfd>'+posm_qty;			
+		}
+	 
+	})
+	
 	var image_name=$("#posm_image_name_hidden").val();
 	var posm_image_path=$("#posm_image_div_hidden").val();
-	posm_data=posm_data+image_name+'fdfd'+posm_image_path+'rdrd';
-	localStorage.posm_data_ready=posm_data
-	
+	posm_data=posm_data+'<rdrdrd>'+image_name+'<rdrdrd>'+posm_image_path;
+	localStorage.posm_data_ready=posm_data	
 	
 	posm_page_set();
 }
 
 function posm_page_set() { 
-	var posm_data =  localStorage.posm_data_ready.replace("rdrd","");
-	var posm_array =  posm_data.split('fdfd');
-	var image_name = posm_array[0];
-	var posm_image_path = posm_array[1];
-	//alert (image_name)
+	//var posm_data =  localStorage.posm_data_ready.replace("rdrd","");
+	var posm_array =  localStorage.posm_data_ready.split('<rdrdrd>');
+	var image_name = posm_array[1];
+	var posm_image_path = posm_array[2];	
 	$("#posm_image_name_hidden").val(image_name);
 	$("#posm_image_div_hidden").val(posm_image_path);
 	
@@ -848,9 +865,7 @@ function check_user() {
 								var routeExArray = routeException.split('</routeexList>');									
 								routeExList = routeExArray[0].replace("<routeexList>","");
 								
-								
-								
-								
+																
 								//alert (routeExArray[1])
 								var cancel_reason = routeExArray[1];
 								var cancel_reasonArray = cancel_reason.split('</cancelList>');									
@@ -875,8 +890,7 @@ function check_user() {
 								localStorage.cancel_combo_str=cancel_combo_str
 								$('#cancel_reason').empty();
 								$('#cancel_reason').append(localStorage.cancel_combo_str);
-								
-								
+																
 								//create place  combo
 								var placeArray = place_strList.split('rdrd');	
 								//var place_combo_str='Select Place Location: </br><select name="place_combo" id="place_combo" >'
@@ -899,6 +913,21 @@ function check_user() {
 								$('#place_combo_show').empty();
 								$('#place_combo_show').append(localStorage.place_combo_str);
 								
+								//- notice list
+								var noticeArray = resultArray[3].split('</noticeList>');									
+								noticeList = noticeArray[0].replace("<noticeList>","");
+								
+								var notice_array = noticeList.split('fdfd');
+								
+								noticeListStr='<ul data-role="listview" data-inset="true"><li style="background-color:#F2F2F2;">Notice List</li>';
+								for (var i=0; i < notice_array.length; i++){				
+									noticeListStr+='<li class="ui-field-contain">'+notice_array[i]+'</li>';			  	
+								}
+								noticeListStr=noticeListStr+'</ul>';
+								
+								localStorage.notice_list_str=noticeListStr;
+								$('#notice_list_show').empty();
+								$('#notice_list_show').append(localStorage.notice_list_str);
 								
 								
 						  //==========Create route list
@@ -1026,7 +1055,7 @@ function check_user() {
 											 routeStringShow=routeStringShow+'<label ><input type="radio"  name="RadioRoute"  value="'+routeID+'" id="RadioGroup1_0"> '+routeName+'</label>'
 										 }
 										else{
-											routeStringShow=routeStringShow+'<label><input type="radio"  disabled name="RadioRoute"  value="'+routeID+'" id="RadioGroup1_0"> '+routeName+'</label>'
+											routeStringShow=routeStringShow+'<label style="background:#A6CEBB" ><input type="radio"  name="RadioRoute"  value="'+routeID+'" id="RadioGroup1_0"> '+routeName+'</label>'
 										 }
 									 
 									}
@@ -1056,11 +1085,12 @@ function check_user() {
 							}
 							if ((resultArray[0]=='SUCCESS') && (localStorage.route==undefined)){
 								
-								var url = "#salfiePage";
+								var url = "#routePage";
 								$.mobile.navigate(url);
 								
-								$('#salfiePage').trigger('create');
+								$('#routePage').trigger('create');
 							}
+							
 							if ((resultArray[0]=='SUCCESS') && (localStorage.route!=undefined)){
 								var url = "#menuPage";
 								$.mobile.navigate(url);
@@ -1217,7 +1247,7 @@ function check_route() {
 				 if (alowSl.indexOf(r_sdaySl) != -1){
 					 routeStringShow=routeStringShow+'<label ><input type="radio"  name="RadioRoute"  value="'+routeID+'" id="RadioGroup1_0"> '+routeName+'</label>'
 				 }else{
-					routeStringShow=routeStringShow+'<label><input type="radio"  disabled name="RadioRoute"  value="'+routeID+'" id="RadioGroup1_0"> '+routeName+'</label>'
+					routeStringShow=routeStringShow+'<label style="background:#A6CEBB" ><input  type="radio"  name="RadioRoute"  value="'+routeID+'" id="RadioGroup1_0"> '+routeName+'</label>'
 				 }
 					 
 			}
@@ -1314,6 +1344,7 @@ function marketPJP() {
 			//$("#dataerror").html(apipath+'sync_route?cid='+localStorage.cid+'&cm_id='+localStorage.cm_id+'&cm_pass='+localStorage.cm_pass+'&synccode='+localStorage.synccode+'&route='+localStorage.selectedRoute);
 		//======================================	
 			//alert(apipath+'sync_route?cid='+localStorage.cid+'&cm_id='+localStorage.cm_id+'&cm_pass='+localStorage.cm_pass+'&synccode='+localStorage.synccode+'&route='+localStorage.selectedRoute);
+			
 			localStorage.routeException='';
 			$.ajax({
 					 type: 'POST',
@@ -1340,6 +1371,7 @@ function marketPJP() {
 										$("#RSButton").show();
 									}
 									else{
+										
 											//merchandising distribution by billal
 											var merchandisingDistribStr=resultArray[2];
 											localStorage.merchandisingDistribStr=merchandisingDistribStr
@@ -1377,16 +1409,18 @@ function marketPJP() {
 											//alert(localStorage.merchandisingDistribStr);
 											//alert(merchandisingDistribStr);
 											
-											var outletArray = result_string.split('</outletList>');									
 											
-											var outletSArray = result_string.split('<outletexList>');	
+											var outletArray = result_string.split('</outletList>');											
+											var outletSArray = result_string.split('<outletexList>');											
 											
-											outletList = outletSArray[0].replace("<outletList>","");
-											
+																																	
+											outletList = outletSArray[0].replace("<outletList>","");											
 											var outletAllArray = outletSArray[1].split('</outletexList>');	
 																			
 											outletExList = outletAllArray[0];
 											allOutletString = outletAllArray[1];
+											
+											
 											
 											localStorage.allOutletString=allOutletString;
 											
@@ -1461,6 +1495,9 @@ function marketPJP() {
 											
 											localStorage.outletString=outletStringShow
 											$("#outletString").html(localStorage.outletString);
+											
+																		
+											
 											
 											$("#routeS_image").hide();
 											$("#RSButton").show();
@@ -1688,14 +1725,11 @@ function selectOutletException() {
 			
 		}
 		else{
-			var url = "#npdPage";
+			//var url = "#npdPage";
+			var url = "#unpaidDisplayPage";
 			$.mobile.navigate(url);
 		}
 		
-		
-		
-		$.mobile.navigate(url);
-	//	$(url).trigger('create');
 	}
 }
 //=====================Outlet Exception end=====================
@@ -1740,6 +1774,7 @@ function syncOutlet() {
 			marchadizingItem = marchadizingArray[1];
 			var marchadizingItemArray = marchadizingItem.split('</marItemList>');									
 			marchadizingItemList = marchadizingItemArray[0].replace("<marItemList>","");
+			
 			
 			//=====marchandizing Brand=======
 			marchadizingBrand = marchadizingItemArray[1];
@@ -2120,7 +2155,19 @@ function syncOutlet() {
 			outletIDnameShow=outletIDnameShow+'<table width="100%" border="0"><tr style="color:#0329C0"> <td colspan="2" style="color:#006A6A; font-size:18px;">'+localStorage.routeIDName+'<br>'+localStorage.outletNameID+'</td></tr><tr > </table></br>'
 			localStorage.outletIDnameShow=outletIDnameShow
 			//===============================
-	
+			
+			
+			//mar item list															
+												
+			var mar_item_array = marchadizingItemList.split('rdrd');																								
+			marItemCmbo='<select name="select_posm" id="select_posm" ><option value="">Select POSM</option>';
+			for (var i=0; i < mar_item_array.length-1; i++){
+				var marItemS= mar_item_array[i].split('fdfd');					
+				marItemCmbo+='<option value="'+marItemS[0]+'|'+marItemS[1]+'">'+marItemS[0]+'|'+marItemS[1]+'</option>';			  	
+			}
+			marItemCmbo=marItemCmbo+'</select>';			
+			localStorage.marItemCmbo=marItemCmbo;
+						
 			
 		//	===========dynamic modal form for new marchandizing end================
 								
@@ -2604,7 +2651,13 @@ function qpds_ready_data() {
 	}
 
 	else{
-		var url="#surveyPage";
+		
+		$('#mar_cmbo_show').empty();
+		$('#mar_cmbo_show').append(localStorage.marItemCmbo);
+		
+		
+		
+		var url="#posmPage";
 		$.mobile.navigate(url);
 		//var url="#unpaidDisplayPage";
 		//var url = "#npdPage";
@@ -2989,11 +3042,11 @@ function submit_data() {
 	
 	//$("#submit_data_check").html(apipath+'syncSubmitData?cid='+localStorage.cid+'&cm_id='+localStorage.cm_id+'&cm_pass='+localStorage.cm_pass+'&synccode='+localStorage.synccode+'&route='+localStorage.selectedRoute+'&routeEx='+localStorage.routeException+'&outlet='+localStorage.selectedOutlet+'&scheduleDate='+ localStorage.selected_date +'&outletEx='+localStorage.outletException+'&channel='+localStorage.outletChannel+'&latlong='+latlong+'&visitDate='+visitDate+'&startTime='+localStorage.startTime+'&endTime='+endTime+'&giftImage='+giftImage+'&mhskus_data='+localStorage.mhskus_data_ready+'&npd_data='+localStorage.npd_data_ready+'&fdisplay_data='+fdisplay_data+'&qpds_data='+qpds_data+'&gift_data='+localStorage.gift_data_ready+'&place_data='+localStorage.place_data_ready+'&shop_data='+localStorage.shop_data_ready);	
 
-	//alert(apipath+'syncSubmitData?cid='+localStorage.cid+'&cm_id='+localStorage.cm_id+'&cm_pass='+localStorage.cm_pass+'&synccode='+localStorage.synccode+'&route='+localStorage.selectedRoute+'&routeEx='+localStorage.routeException+'&outlet='+localStorage.selectedOutlet+'&scheduleDate='+ localStorage.selected_date +'&outletEx='+localStorage.outletException+'&channel='+localStorage.outletChannel+'&latlong='+latlong+'&visitDate='+visitDate+'&startTime='+localStorage.startTime+'&endTime='+endTime+'&giftImage='+giftImage+'&mhskus_data='+localStorage.mhskus_data_ready+'&npd_data='+localStorage.npd_data_ready+'&fdisplay_data='+fdisplay_data+'&qpds_data='+qpds_data+'&salfie_data='+salfieImage+'&gift_data='+localStorage.gift_data_ready+'&place_data='+localStorage.place_data_ready+'&shop_data='+localStorage.shop_data_ready+'&unpaid_data='+localStorage.unpaid_data_ready+'&survey_data='+localStorage.surveyValue);
+	//alert(apipath+'syncSubmitData?cid='+localStorage.cid+'&cm_id='+localStorage.cm_id+'&cm_pass='+localStorage.cm_pass+'&synccode='+localStorage.synccode+'&route='+localStorage.selectedRoute+'&routeEx='+localStorage.routeException+'&outlet='+localStorage.selectedOutlet+'&scheduleDate='+ localStorage.selected_date +'&outletEx='+localStorage.outletException+'&channel='+localStorage.outletChannel+'&latlong='+latlong+'&visitDate='+visitDate+'&startTime='+localStorage.startTime+'&endTime='+endTime+'&giftImage='+giftImage+'&mhskus_data='+localStorage.mhskus_data_ready+'&npd_data='+localStorage.npd_data_ready+'&fdisplay_data='+fdisplay_data+'&qpds_data='+qpds_data+'&salfie_data='+salfieImage+'&gift_data='+localStorage.gift_data_ready+'&place_data='+localStorage.place_data_ready+'&shop_data='+localStorage.shop_data_ready+'&unpaid_data='+localStorage.unpaid_data_ready+'&posm_data='+localStorage.posm_data_ready+'&survey_data='+localStorage.surveyValue);
 	
 	$.ajax({
 				type: 'POST',
-				url: apipath+'syncSubmitData?cid='+localStorage.cid+'&cm_id='+localStorage.cm_id+'&cm_pass='+localStorage.cm_pass+'&synccode='+localStorage.synccode+'&route='+localStorage.selectedRoute+'&routeEx='+localStorage.routeException+'&outlet='+localStorage.selectedOutlet+'&scheduleDate='+ localStorage.selected_date +'&outletEx='+localStorage.outletException+'&channel='+localStorage.outletChannel+'&latlong='+latlong+'&visitDate='+visitDate+'&startTime='+localStorage.startTime+'&endTime='+endTime+'&giftImage='+giftImage+'&mhskus_data='+localStorage.mhskus_data_ready+'&npd_data='+localStorage.npd_data_ready+'&fdisplay_data='+fdisplay_data+'&qpds_data='+qpds_data+'&salfie_data='+salfieImage+'&gift_data='+localStorage.gift_data_ready+'&place_data='+localStorage.place_data_ready+'&shop_data='+localStorage.shop_data_ready+'&unpaid_data='+localStorage.unpaid_data_ready+'&survey_data='+localStorage.surveyValue,
+				url: apipath+'syncSubmitData?cid='+localStorage.cid+'&cm_id='+localStorage.cm_id+'&cm_pass='+localStorage.cm_pass+'&synccode='+localStorage.synccode+'&route='+localStorage.selectedRoute+'&routeEx='+localStorage.routeException+'&outlet='+localStorage.selectedOutlet+'&scheduleDate='+ localStorage.selected_date +'&outletEx='+localStorage.outletException+'&channel='+localStorage.outletChannel+'&latlong='+latlong+'&visitDate='+visitDate+'&startTime='+localStorage.startTime+'&endTime='+endTime+'&giftImage='+giftImage+'&mhskus_data='+localStorage.mhskus_data_ready+'&npd_data='+localStorage.npd_data_ready+'&fdisplay_data='+fdisplay_data+'&qpds_data='+qpds_data+'&salfie_data='+salfieImage+'&gift_data='+localStorage.gift_data_ready+'&place_data='+localStorage.place_data_ready+'&shop_data='+localStorage.shop_data_ready+'&unpaid_data='+localStorage.unpaid_data_ready+'&posm_data='+localStorage.posm_data_ready+'&survey_data='+localStorage.surveyValue,
 				 success: function(result) {	
 						
 						if (result==''){
@@ -3082,7 +3135,7 @@ function submit_data() {
 								
 								$("#submit_data_check").html("Data Synced Successfully");
 								$("#submit_data").html('');
-								localStorage.step_flag=0;
+								localStorage.step_flag=1;
 								
 								
 								// Enable all disable div start
@@ -3098,7 +3151,7 @@ function submit_data() {
 								// Enable disable div end
 								
 								
-								 upload_salfie();
+								 upload_shop();
 								//cancel_outlet();
 								
 								//location.reload();
@@ -3519,7 +3572,7 @@ function upload_salfie(){
 	}
 	
 	
-	upload_shop()
+	//upload_shop()
 
 }
 
@@ -3614,9 +3667,37 @@ function upload_qpds(){
 	else{
 		 localStorage.qpdsdataSubmit=1;
 	}
-	 buttonCheck();
+	upload_posm()
+	 
 }
 
+
+function upload_posm(){
+	//alert('upload unpaid')
+	localStorage.step_flag=5; 
+	localStorage.posmdataSubmit=1;
+	//step_flag=2; //1 fd , 2 qpds, 3 gift
+	file_upload_error = 0;
+	//$( "#sub_qpds_button").hide();
+
+
+	var image_name_posm=$("#posm_image_name_hidden").val();
+	var posm_image_path=$("#posm_image_div_hidden").val();
+	
+	if (image_name_posm.length >10){
+				uploadPhoto(posm_image_path, image_name_posm);
+				$("#submit_data").html("");
+	} else {
+
+			$("#submit_data").html("POSM Image Not Available");
+			//$("#submit_data").html("");				
+
+	}
+	
+	
+	buttonCheck();
+
+}
 
 
 
@@ -3755,10 +3836,7 @@ function upload_qpds(){
 
 
 function check_step() {	
-	if (localStorage.step_flag==0){
-		upload_salfie();		
-		//alert ('chk- 1')
-	}
+	
 	if (localStorage.step_flag==1){
 		upload_shop();
 		//alert ('chk- 2')
@@ -3769,6 +3847,10 @@ function check_step() {
 	}
 	if (localStorage.step_flag==3){
 		upload_qpds();
+		//alert ('chk- 4')
+	}
+	if (localStorage.step_flag==4){
+		upload_posm();
 		//alert ('chk- 4')
 	}
 
@@ -3804,7 +3886,8 @@ function uploadPhoto(imageURI, imageName) {
 }
 
 function win(r) {
-	file_upload_error = 0;	
+	file_upload_error = 0;
+		
 		
 	if (localStorage.step_flag==1){  // Shop
 		//alert('win-1')
@@ -3826,6 +3909,13 @@ function win(r) {
 		$("#submit_data").html("Paid Display Sync Completted");
 		localStorage.qpdsdataSubmit=1;
 		upload_qpds();
+		buttonCheck();
+	}
+	if (localStorage.step_flag==4){  // Paid
+		//alert('win-3')
+		$("#submit_data").html("POSM Sync Completted");
+		localStorage.posmdataSubmit=1;
+		upload_posm();
 		buttonCheck();
 	}
 
@@ -3867,6 +3957,12 @@ function fail(error) {
 		//alert('Fail- 3')
 		$("#submit_data").html("Network timeout. Please ensure you have good network signal and working Internet.");
 		localStorage.qpdsdataSubmit=0;
+		buttonCheck();
+	}
+	if (step_flag==5){ // QPDS
+		//alert('Fail- 3')
+		$("#submit_data").html("Network timeout. Please ensure you have good network signal and working Internet.");
+		localStorage.posmdataSubmit=0;
 		buttonCheck();
 	}
 	
@@ -4007,7 +4103,7 @@ function buttonCheck(){
 	
 	// && (localStorage.dataSubmit==0)
 	
-	if ((localStorage.latlongSubmit==1) && ((localStorage.salfiedataSubmit==0) || (localStorage.shopdataSubmit==0) || (localStorage.unpaiddataSubmit==0) || (localStorage.qpdsdataSubmit==0))){
+	if ((localStorage.latlongSubmit==1) && ((localStorage.shopdataSubmit==0) || (localStorage.unpaiddataSubmit==0) || (localStorage.qpdsdataSubmit==0)|| (localStorage.posmdataSubmit==0))){
 		$("#location_button").hide();
 		$("#sub_button_div").show();
 		
@@ -4018,7 +4114,7 @@ function buttonCheck(){
 	
 	}
 	
-	if ((localStorage.latlongSubmit==1) && (localStorage.dataSubmit==1) && ((localStorage.salfiedataSubmit==0) || (localStorage.shopdataSubmit==0) || (localStorage.unpaiddataSubmit==0) || (localStorage.qpdsdataSubmit==0))){
+	if ((localStorage.latlongSubmit==1) && (localStorage.dataSubmit==1) && ((localStorage.shopdataSubmit==0) || (localStorage.unpaiddataSubmit==0) || (localStorage.qpdsdataSubmit==0)|| (localStorage.posmdataSubmit==0))){
 		$("#location_button").hide();
 		$("#sub_button_div").hide();
 
@@ -4027,7 +4123,7 @@ function buttonCheck(){
 		//alert ('s-2');	
 	}
 	
-	if ((localStorage.latlongSubmit==1) && (localStorage.dataSubmit==1) && ((localStorage.salfiedataSubmit==1) || (localStorage.shopdataSubmit==0) || (localStorage.unpaiddataSubmit==0) || (localStorage.qpdsdataSubmit==0))){
+	if ((localStorage.latlongSubmit==1) && (localStorage.dataSubmit==1) && ((localStorage.shopdataSubmit==0) || (localStorage.unpaiddataSubmit==0) || (localStorage.qpdsdataSubmit==0)|| (localStorage.posmdataSubmit==0))){
 		$("#location_button").hide();
 		$("#sub_button_div").hide();
 
@@ -4037,7 +4133,7 @@ function buttonCheck(){
 	
 	}
 	
-	if ((localStorage.latlongSubmit==1) && (localStorage.dataSubmit==1) && ((localStorage.salfiedataSubmit==1) || (localStorage.shopdataSubmit==1) || (localStorage.unpaiddataSubmit==0) || (localStorage.qpdsdataSubmit==0))){
+	if ((localStorage.latlongSubmit==1) && (localStorage.dataSubmit==1) && ((localStorage.shopdataSubmit==1) || (localStorage.unpaiddataSubmit==0) || (localStorage.qpdsdataSubmit==0|| (localStorage.posmdataSubmit==0)))){
 		$("#location_button").hide();
 		$("#sub_button_div").hide();
 
@@ -4047,7 +4143,7 @@ function buttonCheck(){
 	
 	}
 	
-	if ((localStorage.latlongSubmit==1) && (localStorage.dataSubmit==1) && ((localStorage.salfiedataSubmit==1) || (localStorage.shopdataSubmit==1) || (localStorage.unpaiddataSubmit==1) || (localStorage.qpdsdataSubmit==0))){
+	if ((localStorage.latlongSubmit==1) && (localStorage.dataSubmit==1) && ((localStorage.shopdataSubmit==1) || (localStorage.unpaiddataSubmit==1) || (localStorage.qpdsdataSubmit==0)|| (localStorage.posmdataSubmit==0))){
 		$("#location_button").hide();
 		$("#sub_button_div").hide();
 
@@ -4056,7 +4152,17 @@ function buttonCheck(){
 		//alert ('s-5');	
 	}
 	
-	if ((localStorage.latlongSubmit==1) && (localStorage.dataSubmit==1) && ((localStorage.salfiedataSubmit==1) || (localStorage.shopdataSubmit==1) || (localStorage.unpaiddataSubmit==1) || (localStorage.qpdsdataSubmit==1))){
+	if ((localStorage.latlongSubmit==1) && (localStorage.dataSubmit==1) && ((localStorage.shopdataSubmit==1) || (localStorage.unpaiddataSubmit==1) || (localStorage.qpdsdataSubmit==1)|| (localStorage.posmdataSubmit==0))){
+		$("#location_button").hide();
+		$("#sub_button_div").hide();
+
+		$("#image_up_button").show();
+		$("#NOutlet_button").hide();
+		//alert ('s-6');
+	
+	}
+	
+	if ((localStorage.latlongSubmit==1) && (localStorage.dataSubmit==1) && ((localStorage.shopdataSubmit==1) || (localStorage.unpaiddataSubmit==1) || (localStorage.qpdsdataSubmit==1)|| (localStorage.posmdataSubmit==1))){
 		$("#location_button").hide();
 		$("#sub_button_div").hide();
 
