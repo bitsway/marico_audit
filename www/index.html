@@ -51,9 +51,9 @@
 			
 		}
 		
+		li{word-wrap:break-word!important; white-space:normal!important;}
 	
-		</style>
-        <style>
+		
 		.disabledAnchor a{
 		   pointer-events: none !important;
 		   cursor: default;
@@ -115,6 +115,11 @@ $(document).ready(function(){
 				//alert (localStorage.place_combo_str)
 				$('#place_combo_show').empty();
 				$('#place_combo_show').append(localStorage.place_combo_str);
+				
+				
+				$('#mar_cmbo_show').html(localStorage.marItemCmbo);				
+				$("#competitor").html(localStorage.competitorCmbo);				
+				$("#competitorQ").html(localStorage.competitorQCmbo);
 				
 				
 				
@@ -350,7 +355,7 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
             </div>
 			
 		
-			<div align="right"  style="color:#A4C5D9; width:100%; ">Version:00010;20160515.1</div>
+			<div align="right"  style="color:#A4C5D9; width:100%; ">Version:00010;20160502.1</div>
         </div><!--/login page-->
         
 
@@ -764,7 +769,7 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
                 <h3>Notice</h3>
             </div>
 		    
-			<div  data-role="content" style="height:90%" >
+			<div  data-role="content" style="height:90%;"  >
             <br/><br/>
             <div id="notice_list_show"></div>
                
@@ -845,10 +850,10 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
 		  
 		  <div id="salfiePageOutletNameID"> </div>		  
 		  	<br/><br/>
-            <ul data-role="listview" data-inset="true">               
+            <ul data-role="listview" data-inset="true" data-mini="true">               
                 <li style="background-color:#F2F2F2;">Attendance Type</li>                
                 <li class="ui-field-contain">
-                    <fieldset data-role="controlgroup" >
+                    <fieldset data-role="controlgroup" data-mini="true">
                         <input name="attendance" id="1" value="Day Start" type="radio">
                         <label for="1">Day Start</label>
                         <input name="attendance" id="2" value="Day End" type="radio">
@@ -979,31 +984,30 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
           
           <table id="tblPosm" class="ui-body-d ui-shadow table-stripe ui-responsive" data-role="table" data-theme="d"  data-mode="display:none" >
           	<tr>
-            	<td width="60%" >
+            	<td width="50%" >
                 	<div id="mar_cmbo_show"></div>                	
           		</td>
-                <td width="30%" ><input id="posm_qty" name="posm_Qty" type="number" style="height:42px; font-size:14px;" /></td>
-                <td width="10%"><a data-role="button"  onClick="add_posm()" >ADD </a></td>
-            </tr>
-          
+                <td width="40%" ><input id="posm_qty" name="posm_Qty" type="number" style="height:42px; font-size:14px;" /></td>
+                <td width="10%"><a data-role="button" data-mini="true"  onClick="add_posm()" >ADD </a></td>
+            </tr>          
           </table>
           
 		  
-		  	 <div id="shop_show">
-				  <a data-role="button" href="#" onClick="get_pic_posm()" >Take Picture </a>
-					<img id="posm_image_div" height="100px" width="100px"  src="" alt="Image" />
-						<input type="hidden" name="posm_image_div_hidden" id="posm_image_div_hidden" value="" >
-						<input type="hidden" name="posm_image_name_hidden" id="posm_image_name_hidden" value="" >
-					</div> <!--shop_show-->			
-						</br></br>
-					
-				<a data-role="button" onClick="posm_next_page();" >Next</a>
-				
-				<br/><br/></br></br></br></br></br></br><br/><br/><br/>
-				
-              <div id="dataerror" style="color:#FF0; font-family:Arial, Helvetica, sans-serif; text-decoration:none; font-size:12px; font-style:normal; font-weight:lighter; text-shadow:none"  align="center"> </div>
-                <br/><br/>
-                <br/><br/><br/>
+         <div id="shop_show">
+            <a data-role="button" href="#" onClick="get_pic_posm()" >Take Picture </a>
+            <img id="posm_image_div" height="100px" width="100px"  src="" alt="Image" />
+            <input type="hidden" name="posm_image_div_hidden" id="posm_image_div_hidden" value="" >
+            <input type="hidden" name="posm_image_name_hidden" id="posm_image_name_hidden" value="" >
+            </div> <!--shop_show-->			
+                </br></br>
+            
+        	<a data-role="button" onClick="posm_next_page();" >Next</a>
+        
+        	<br/><br/></br></br></br></br></br></br><br/><br/><br/>
+            
+          <div id="dataerror" style="color:#FF0; font-family:Arial, Helvetica, sans-serif; text-decoration:none; font-size:12px; font-style:normal; font-weight:lighter; text-shadow:none"  align="center"></div>
+            <br/><br/>
+            <br/><br/><br/>
 	  </div>
 
 	</div>
@@ -1024,31 +1028,39 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
 		  <br/> <br/>
 		  <div id="competitorPageOutletNameID"> </div>
 		  
-		  	 <div id="shop_show">               
-             	
-                <select name="competitor_uni" id="competitor_uni"  >
-                	<option value="">Unilever</option>                            
-                    <option value="YES">YES</option> 
-                    <option value="NO" >NO</option>                                   
-                 </select>                    	
-           
-                <select name="competitor_dabour" id="competitor_dabour"  >
-                	<option value="">Dabour</option>                            
-                    <option value="YES">YES</option> 
-                    <option value="NO">NO</option>                                   
-                 </select>                     	
-            
-                <select name="competitor_kumarica" id="competitor_kumarica" >                            
-                    <option value="">Kumarica</option>
-                    <option value="YES">YES</option> 
-                    <option value="NO">NO</option>                                   
-                 </select> 
+		  	 <div id="shop_show">
+             	<table width="100%" >
+                	<tr>                    	
+                        <td colspan="2" width="100%">
+                        	<div id="competitor"></div> 
+                        </td>
+                    </tr>
+                    <tr>
+                    	<td width="10%">Q.</td>
+                        <td width="90%" ><div id="competitorQ"></div></td>
+                    </tr>
+                    <tr>
+                    	<td width="10%">Ans.</td>
+                        <td width="90%"><textarea id="copmA" name="compA" cols="20" rows="5" maxlength="100"></textarea></td>
+                    </tr>
+                    <tr>
+                    	<td colspan="2"><a data-role="button"  onClick="add_comp_data()" >ADD </a></td>                        
+                    </tr>                    
+                </table> 
+                
+                <table id="tblComp" class="ui-body-d ui-shadow table-stripe ui-responsive" data-role="table" data-theme="d"  data-mode="display:none" data-mini="true" style="text-align:center;">
+                	<tr>
+                    	<td width="20%">Competitor</td>
+                        <td width="40%">Q</td>
+                        <td width="40%">Ans.</td>
+                        <td width="5%"></td>
+                    </tr>
+                </table>      	
+                                                                      	
+                   <br/>          
+				  <a data-role="button" href="#" onClick="get_pic_competitor()" >Take Picture </a>
                   
-				  <table width="100%" border="0"><tr>
-					  <tr>
-						<td><a data-role="button" href="#" onClick="get_pic_competitor()" >Take Picture </a></td></tr>
-					</table>
-					<img id="competitor_image_div" height="100px" width="100px"  src="" alt="Place" />
+					<img id="competitor_image_div" height="100px" width="100px"  src="" alt="Image" />
 						<input type="hidden" name="competitor_image_div_hidden" id="competitor_image_div_hidden" value="" >
 						<input type="hidden" name="competitor_image_name_hidden" id="competitor_image_name_hidden" value="" >
 					</div> <!--shop_show-->			
@@ -1123,10 +1135,8 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
 		  <div id="cpageOutletNameID"> </div>
 		  
 		  	 <div id="shop_show">
-				  <table width="100%" border="0"><tr>
-					  <tr>
-						<td><a data-role="button" href="#" onClick="get_pic_self()" >Take Picture </a></td></tr>
-					</table>
+				  <a data-role="button" href="#" onClick="get_pic_self()" >Take Picture </a></td></tr>
+					
 					<img id="self_image_div" height="100px" width="100px"  src="" alt="Place" />
 						<input type="text" name="self_image_div_hidden" id="self_image_div_hidden" value="" >
 						<input type="text" name="self_image_name_hidden" id="self_image_name_hidden" value="" >
@@ -1162,7 +1172,7 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
 		  
 		  	 <div id="survey_chk">
 				  <br/>
-                    <fieldset data-role="controlgroup">
+                    <fieldset data-role="controlgroup" data-mini="true" >
                         <input name="survey_1" id="survey_1" value="1" type="checkbox">
                         <label for="survey_1">দোকানে আপনার পন্যগুলো সঠিকভাবে সাজানো আছে তো?</label>
                         <input name="survey_2" id="survey_2" value="1" type="checkbox">
