@@ -128,39 +128,38 @@ function chkVersion(){
 // notice
 function chkNotice(m){	
 	var chkN=m;
+		
+	var sync_date_get=get_date()
+	var sync_y=sync_date_get.split('-')[0];
+	var sync_m=sync_date_get.split('-')[1];
+	if (sync_m.length==1){sync_m='0'+sync_m}
+	var sync_d=sync_date_get.split('-')[2].split(' ')[0];
+	if (sync_d.length==1){sync_d='0'+sync_d}
+	var sync_cur_date=sync_y +'/'+ sync_m +'/'+sync_d;	
+					
+	//alert(apipath+'sync_notice?cid='+localStorage.cid+'&cm_id='+localStorage.cm_id+'&cm_pass='+localStorage.cm_pass+'&synccode='+localStorage.synccode);
 	
-	if(chkN=="m"){
-		$.mobile.navigate("#noticePage");
-	}else{
-		
-		var sync_date_get=get_date()
-		var sync_y=sync_date_get.split('-')[0];
-		var sync_m=sync_date_get.split('-')[1];
-		if (sync_m.length==1){sync_m='0'+sync_m}
-		var sync_d=sync_date_get.split('-')[2].split(' ')[0];
-		if (sync_d.length==1){sync_d='0'+sync_d}
-		var sync_cur_date=sync_y +'/'+ sync_m +'/'+sync_d;	
-		
-		//alert(apipath+'sync_notice?cid='+localStorage.cid+'&cm_id='+localStorage.cm_id+'&cm_pass='+localStorage.cm_pass+'&synccode='+localStorage.synccode);
-		
-		$.ajax({
-			 type: 'POST',
-			 url: apipath+'sync_notice?cid='+localStorage.cid+'&cm_id='+localStorage.cm_id+'&cm_pass='+localStorage.cm_pass+'&synccode='+localStorage.synccode,
-			 success: function(result) {
-					if (result!=""){
-						var notice_array=result.split("<rd>");					
-						
-						noticeListStr='';
-						var s_notice_lst_date="";
-						for (var i=0; i < notice_array.length; i++){
-							s_notice=notice_array[i].split("<fd>");
-							s_notice_date=notice_array[0].split("<fd>");
-							s_notice_lst_date=s_notice_date[0].replace("-","/").replace("-","/");				
-							noticeListStr+='<ul data-role="listview" data-inset="true" data-mini="true" ><li style="height:8px; text-align:right; background-color:#EEE;">'+s_notice[0]+'</li><li id="noticeToday_'+i+'" class="ui-field-contain">'+s_notice[1]+'</li></ul>';			  	
-						}
-											
-						$('#notice_list_show').html(noticeListStr).trigger('create');
+	$.ajax({
+		 type: 'POST',
+		 url: apipath+'sync_notice?cid='+localStorage.cid+'&cm_id='+localStorage.cm_id+'&cm_pass='+localStorage.cm_pass+'&synccode='+localStorage.synccode,
+		 success: function(result) {
+				if (result!=""){
+					var notice_array=result.split("<rd>");					
+					
+					noticeListStr='';
+					var s_notice_lst_date="";
+					for (var i=0; i < notice_array.length; i++){
+						s_notice=notice_array[i].split("<fd>");
+						s_notice_date=notice_array[0].split("<fd>");
+						s_notice_lst_date=s_notice_date[0].replace("-","/").replace("-","/");				
+						noticeListStr+='<ul data-role="listview" data-inset="true" data-mini="true" ><li style="height:8px; text-align:right; background-color:#EEE;">'+s_notice[0]+'</li><li id="noticeToday_'+i+'" class="ui-field-contain">'+s_notice[1]+'</li></ul>';			  	
+					}
 										
+					$('#notice_list_show').html(noticeListStr).trigger('create');
+					
+					if(chkN==1){							
+						$.mobile.navigate("#noticePage");	
+					}else{				
 						var chkNoticeDate=new Date(s_notice_lst_date).setHours(0,0,0,0)==new Date(sync_cur_date).setHours(0,0,0,0)						
 						
 						if(chkNoticeDate==true){
@@ -169,13 +168,14 @@ function chkNotice(m){
 						}else{
 							$.mobile.navigate("#menuPage");												
 						}
-					}else{
-						$(".errMsg").html("");
-						
-					}		
-				}
-		});					
-	}
+					}
+				}else{
+					$(".errMsg").html("");
+					
+				}		
+			}
+	});					
+	
 }
 
 
@@ -649,17 +649,13 @@ function clear_autho(){
 	
 	//distributon
 	
-	localStorage.salfiedataSubmit=0;
-	localStorage.shopdataSubmit=0;
-	localStorage.unpaiddataSubmit=0;
-	
 	
 	localStorage.attendanceFlag=0;
 	localStorage.latlongSubmit=0;
 	localStorage.dataSubmit=0;
 	localStorage.qpdsdataSubmit=0;
-	localStorage.shopdataSubmit=0;	
-	localStorage.selfdataSubmit=0;
+	localStorage.shopdataSubmit=0;
+	localStorage.placedataSubmit=0;
 	
 	var url = "#login";
 	$.mobile.navigate(url);
@@ -733,7 +729,7 @@ function cancel_outlet_next_next(){
 	
 	var url = "#cancelPage";
 	$.mobile.navigate(url);
-	//location.reload();
+	location.reload();
 	
 }
 
@@ -867,7 +863,6 @@ function cancel_outlet(){
 	localStorage.placedataSubmit=0;
 	localStorage.posmdataSubmit=0;
 	localStorage.compdataSubmit=0;
-	localStorage.selfdataSubmit=0;
 	
 	
 	localStorage.placeLatLongCount=0;
@@ -2499,7 +2494,7 @@ function submit_data() {
 								// Enable disable div end
 								
 								
-								// upload_shop();
+								upload_shop();
 								//cancel_outlet();
 								
 								//location.reload();
@@ -2913,28 +2908,34 @@ function check_step() {
 	}	
 	
 	if (localStorage.step_flag==1){
-		upload_shop();
 		//alert ('chk- shop')
+		upload_shop();
+		
 	}
 	if (localStorage.step_flag==2){
-		upload_unpaid();
 		//alert ('chk- unpaid')
+		upload_unpaid();
+		
 	}
 	if (localStorage.step_flag==3){
-		upload_qpds();
 		//alert ('chk- paid')
+		upload_qpds();
+		
 	}
 	if (localStorage.step_flag==4){
-		upload_posm();
 		//alert ('chk- posm')
+		upload_posm();
+		
 	}
 	if (localStorage.step_flag==5){
-		upload_competitor();
 		//alert ('chk- comp')
+		upload_competitor();
+		
 	}
 	if (localStorage.step_flag==6){
+		//alert ('chk- shelf')
 		upload_self();
-		//alert ('chk- comp')
+		
 	}
 	
 	
@@ -2947,7 +2948,9 @@ function check_step() {
 //File upload \
 
 function uploadPhoto(imageURI, imageName) {
- 	//win()
+ 
+ 	//alert(imageURI+'--'+imageName)  
+	//win()
   var options = new FileUploadOptions();
   options.fileKey="upload";
 //  options.fileName=imageURI.substr(imageURI.lastIndexOf('/')+1);
@@ -3005,21 +3008,21 @@ function win(r) {
 			//buttonCheck();
 		}
 		if (localStorage.step_flag==4){  // Paid
-			//alert('win-3')
+			//alert('win-4')
 			$("#submit_data").html("POSM Sync Completted");
 			localStorage.posmdataSubmit=1;
 			upload_posm();
 			//buttonCheck();
 		}
 		if (localStorage.step_flag==5){  // Paid
-			//alert('win-3')
+			//alert('win-5')
 			$("#submit_data").html("Competitor Sync Completted");
 			localStorage.compdataSubmit=1;
 			upload_competitor();
 			//buttonCheck();
 		}
 		if (localStorage.step_flag==6){  // Paid
-			//alert('win-3')
+			alert('win-7')
 			$("#submit_data").html("Self Sync Completted");
 			localStorage.selfdataSubmit=1;
 			upload_self();
@@ -3086,11 +3089,7 @@ function fail(error) {
 		buttonCheck();
 	}
 	
-	
-	
-
-
-	
+		
 	step_flag=0; //Reset step flag
 }
 
@@ -3251,7 +3250,7 @@ function buttonCheck(){
 		$("#location_button").hide();
 		$("#sub_button_div").hide();
 
-		$("#image_up_button").hide();
+		$("#image_up_button").show();
 		$("#NOutlet_button").show();
 		//alert ('s-6');
 	
