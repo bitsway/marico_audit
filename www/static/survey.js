@@ -632,7 +632,7 @@ function clear_autho(){
 	localStorage.outletException="";
 	localStorage.outletChanne="";
 	localStorage.outletNameID="";
-		
+	localStorage.attendanceType="";	
 	
 	localStorage.qpds_data_ready="";
 	localStorage.gift_data_ready="";
@@ -646,9 +646,11 @@ function clear_autho(){
 	localStorage.paid_data_ready="";
 	localStorage.posm_data_ready="";
 	localStorage.competitor_data_ready="";
+	localStorage.self_data_ready="";
 	
 	//distributon
 	
+								
 	
 	localStorage.attendanceFlag=0;
 	localStorage.latlongSubmit=0;
@@ -656,6 +658,7 @@ function clear_autho(){
 	localStorage.qpdsdataSubmit=0;
 	localStorage.shopdataSubmit=0;
 	localStorage.placedataSubmit=0;
+	localStorage.selfdataSubmit=0;
 	
 	var url = "#login";
 	$.mobile.navigate(url);
@@ -701,7 +704,7 @@ function cancel_outlet_next(){
 		
 	var url = "#cancelPage";
 	$.mobile.navigate(url);
-	//location.reload();
+	location.reload();
 	
 }
 function cancel_outlet_next_next(){	
@@ -839,6 +842,7 @@ function cancel_outlet(){
 	localStorage.paid_data_ready="";
 	localStorage.posm_data_ready="";
 	localStorage.competitor_data_ready="";
+	localStorage.self_data_ready="";
 	
 	localStorage.shop_next_flag=0;	
 	localStorage.qpds_next_flag=0;	
@@ -863,6 +867,7 @@ function cancel_outlet(){
 	localStorage.placedataSubmit=0;
 	localStorage.posmdataSubmit=0;
 	localStorage.compdataSubmit=0;
+	localStorage.selfdataSubmit=0;
 	
 	
 	localStorage.placeLatLongCount=0;
@@ -950,6 +955,7 @@ function check_user() {
 								
 								localStorage.synced='YES';
 								localStorage.synccode=resultArray[2];
+								
 								
 								
 								result_string=resultArray[1];
@@ -1158,7 +1164,7 @@ function check_user() {
 								$.mobile.navigate(url);
 								
 							}
-							
+														
 						}
 				      },
 				  error: function(result) {
@@ -1586,6 +1592,9 @@ function marketPJP_check() {
 
 function select_outlet() { 
 		$(".errMsg").html('');
+		$("#posm_qty").val('');
+		$("#copmA").val('');
+		
 		localStorage.latlongSubmit=0;
 		localStorage.dataSubmit=0;		
 		localStorage.qpdsdataSubmit=0;		
@@ -1593,10 +1602,9 @@ function select_outlet() {
 		localStorage.placedataSubmit=0;
 		localStorage.posmdataSubmit=0;
 		localStorage.compdataSubmit=0;
+		localStorage.selfdataSubmit=0;
 		localStorage.placeLatLongCount=0
-		
-		
-		
+				
 		
 		localStorage.m_new="";
 		localStorage.submitted_outlet="";
@@ -1694,7 +1702,7 @@ function select_outlet() {
 		  var url = "#outletPage";
 		  $.mobile.navigate(url);	
 		  $(url).trigger('create');
-		  //location.reload();
+		  location.reload();
 		  
 	  }
 
@@ -2494,7 +2502,7 @@ function submit_data() {
 								// Enable disable div end
 								
 								
-								upload_shop();
+								//upload_shop();
 								//cancel_outlet();
 								
 								//location.reload();
@@ -2535,7 +2543,7 @@ function get_pic_qpds(id) {
 	var tempTime = $.now();
 	qpds_image_name=tempTime.toString()+"_"+localStorage.selectedOutlet+".jpg";	
 	$("#"+hidden_name).val(qpds_image_name);
-	navigator.camera.getPicture(onSuccessQpds, onFailQpds, {  quality: 65,
+	navigator.camera.getPicture(onSuccessQpds, onFailQpds, {  quality: 60,
 		targetWidth: 350,
 		destinationType: Camera.DestinationType.FILE_URI , correctOrientation: true});
 }
@@ -2559,7 +2567,7 @@ function get_pic_shop() {
 	shop_image_name=tempTime.toString()+"_"+localStorage.selectedOutlet+"_shop.jpg";
 	$("#shop_image_name_hidden").val(shop_image_name);
 	$("#shop_image_div_hidden").val(shop_image_name);
-	navigator.camera.getPicture(onSuccessShop, onFailShop, { quality: 65,
+	navigator.camera.getPicture(onSuccessShop, onFailShop, { quality: 60,
 		targetWidth: 350,
 		destinationType: Camera.DestinationType.FILE_URI , correctOrientation: true });
 }
@@ -2581,7 +2589,7 @@ function get_salfie() {
 	salfie_image_name=tempTime.toString()+"_"+localStorage.selectedOutlet+"_salfie.jpg";
 	$("#salfie_image_name_hidden").val(salfie_image_name);
 	$("#salfie_image_div_hidden").val(salfie_image_name);
-	navigator.camera.getPicture(onSuccessSalfie, onFailSalfie, { quality: 65,
+	navigator.camera.getPicture(onSuccessSalfie, onFailSalfie, { quality: 60,
 		targetWidth: 350,
 		destinationType: Camera.DestinationType.FILE_URI , correctOrientation: true });
 }
@@ -2606,7 +2614,7 @@ function get_pic_unpaid_display() {
 	unpaid_image_name=tempTime.toString()+"_"+localStorage.selectedOutlet+"_unpaid.jpg";
 	$("#unpaid_image_name_hidden").val(unpaid_image_name);
 	$("#unpaid_image_div_hidden").val(unpaid_image_name);
-	navigator.camera.getPicture(onSuccessUnpaid, onFailUnpaid, { quality: 65,
+	navigator.camera.getPicture(onSuccessUnpaid, onFailUnpaid, { quality: 60,
 		targetWidth: 350,
 		destinationType: Camera.DestinationType.FILE_URI , correctOrientation: true });
 }
@@ -2633,7 +2641,7 @@ function get_pic_posm() {
 	posm_image_name=tempTime.toString()+"_"+localStorage.selectedOutlet+"_posm.jpg";
 	$("#posm_image_name_hidden").val(posm_image_name);
 	$("#posm_image_div_hidden").val(posm_image_name);
-	navigator.camera.getPicture(onSuccessPOSM, onFailPOSM, { quality: 65,
+	navigator.camera.getPicture(onSuccessPOSM, onFailPOSM, { quality: 60,
 		targetWidth: 350,
 		destinationType: Camera.DestinationType.FILE_URI , correctOrientation: true });
 }
@@ -2658,7 +2666,7 @@ function get_pic_competitor() {
 	competitor_image_name=tempTime.toString()+"_"+localStorage.selectedOutlet+"_competitor.jpg";
 	$("#competitor_image_name_hidden").val(competitor_image_name);
 	$("#competitor_image_div_hidden").val(competitor_image_name);
-	navigator.camera.getPicture(onSuccessCompetitor, onFailCompetitor, { quality: 65,
+	navigator.camera.getPicture(onSuccessCompetitor, onFailCompetitor, { quality: 60,
 		targetWidth: 350,
 		destinationType: Camera.DestinationType.FILE_URI , correctOrientation: true });
 }
@@ -2682,7 +2690,7 @@ function get_pic_self() {
 	self_image_name=tempTime.toString()+"_"+localStorage.selectedOutlet+"_self.jpg";
 	$("#self_image_name_hidden").val(self_image_name);
 	$("#self_image_div_hidden").val(self_image_name);
-	navigator.camera.getPicture(onSuccessSelf, onFailSelf, { quality: 65,
+	navigator.camera.getPicture(onSuccessSelf, onFailSelf, { quality: 60,
 		targetWidth: 350,
 		destinationType: Camera.DestinationType.FILE_URI , correctOrientation: true });
 }
@@ -3022,7 +3030,7 @@ function win(r) {
 			//buttonCheck();
 		}
 		if (localStorage.step_flag==6){  // Paid
-			alert('win-7')
+			//alert('win-6')
 			$("#submit_data").html("Self Sync Completted");
 			localStorage.selfdataSubmit=1;
 			upload_self();
@@ -3030,7 +3038,7 @@ function win(r) {
 		}
 	
 		if (localStorage.step_flag==7){  // Gift
-			//alert('win-4')
+			//alert('win-7')
 			$("#submit_data").html("All Sync Completted");
 			localStorage.shopdataSubmit=1;
 			cancel_outlet()
@@ -3159,8 +3167,8 @@ function checkQtyQpds(i){
 function buttonCheck(){
 		if ((localStorage.latlongSubmit==0) && (localStorage.placeLatLongCount >3)){
 		localStorage.latlongSubmit=1
-	//alert ('asd');
-	}
+		//alert ('asd');
+		}
 	if (localStorage.latlongSubmit==0){
 		//alert ('1')
 		
@@ -3198,7 +3206,7 @@ function buttonCheck(){
 		//alert ('s-2');	
 	}
 	
-	if ((localStorage.latlongSubmit==1) && (localStorage.dataSubmit==1) && ((localStorage.shopdataSubmit==0) || (localStorage.unpaiddataSubmit==0) || (localStorage.qpdsdataSubmit==0)|| (localStorage.posmdataSubmit==0)|| (localStorage.compdataSubmit==0)|| (localStorage.selfdataSubmit==0))){
+	if ((localStorage.latlongSubmit==1) && (localStorage.dataSubmit==1) && ((localStorage.shopdataSubmit==1) || (localStorage.unpaiddataSubmit==0) || (localStorage.qpdsdataSubmit==0)|| (localStorage.posmdataSubmit==0)|| (localStorage.compdataSubmit==0)|| (localStorage.selfdataSubmit==0))){
 		$("#location_button").hide();
 		$("#sub_button_div").hide();
 
@@ -3208,7 +3216,7 @@ function buttonCheck(){
 	
 	}
 	
-	if ((localStorage.latlongSubmit==1) && (localStorage.dataSubmit==1) && ((localStorage.shopdataSubmit==1) || (localStorage.unpaiddataSubmit==0) || (localStorage.qpdsdataSubmit==0|| (localStorage.posmdataSubmit==0)|| (localStorage.compdataSubmit==0)|| (localStorage.selfdataSubmit==0)))){
+	if ((localStorage.latlongSubmit==1) && (localStorage.dataSubmit==1) && ((localStorage.shopdataSubmit==1) || (localStorage.unpaiddataSubmit==1) || (localStorage.qpdsdataSubmit==0|| (localStorage.posmdataSubmit==0)|| (localStorage.compdataSubmit==0)|| (localStorage.selfdataSubmit==0)))){
 		$("#location_button").hide();
 		$("#sub_button_div").hide();
 
@@ -3218,7 +3226,7 @@ function buttonCheck(){
 	
 	}
 	
-	if ((localStorage.latlongSubmit==1) && (localStorage.dataSubmit==1) && ((localStorage.shopdataSubmit==1) || (localStorage.unpaiddataSubmit==1) || (localStorage.qpdsdataSubmit==0)|| (localStorage.posmdataSubmit==0)|| (localStorage.compdataSubmit==0)|| (localStorage.selfdataSubmit==0))){
+	if ((localStorage.latlongSubmit==1) && (localStorage.dataSubmit==1) && ((localStorage.shopdataSubmit==1) || (localStorage.unpaiddataSubmit==1) || (localStorage.qpdsdataSubmit==1)|| (localStorage.posmdataSubmit==0)|| (localStorage.compdataSubmit==0)|| (localStorage.selfdataSubmit==0))){
 		$("#location_button").hide();
 		$("#sub_button_div").hide();
 
@@ -3227,15 +3235,6 @@ function buttonCheck(){
 		//alert ('s-5');	
 	}
 	
-	if ((localStorage.latlongSubmit==1) && (localStorage.dataSubmit==1) && ((localStorage.shopdataSubmit==1) || (localStorage.unpaiddataSubmit==1) || (localStorage.qpdsdataSubmit==1)|| (localStorage.posmdataSubmit==0)|| (localStorage.compdataSubmit==0)|| (localStorage.selfdataSubmit==0))){
-		$("#location_button").hide();
-		$("#sub_button_div").hide();
-
-		$("#image_up_button").show();
-		$("#NOutlet_button").hide();
-		//alert ('s-6');
-	
-	}
 	if ((localStorage.latlongSubmit==1) && (localStorage.dataSubmit==1) && ((localStorage.shopdataSubmit==1) || (localStorage.unpaiddataSubmit==1) || (localStorage.qpdsdataSubmit==1)|| (localStorage.posmdataSubmit==1)|| (localStorage.compdataSubmit==0)|| (localStorage.selfdataSubmit==0))){
 		$("#location_button").hide();
 		$("#sub_button_div").hide();
@@ -3245,14 +3244,13 @@ function buttonCheck(){
 		//alert ('s-6');
 	
 	}
-	
 	if ((localStorage.latlongSubmit==1) && (localStorage.dataSubmit==1) && ((localStorage.shopdataSubmit==1) || (localStorage.unpaiddataSubmit==1) || (localStorage.qpdsdataSubmit==1)|| (localStorage.posmdataSubmit==1)|| (localStorage.compdataSubmit==1)|| (localStorage.selfdataSubmit==0))){
 		$("#location_button").hide();
 		$("#sub_button_div").hide();
 
 		$("#image_up_button").show();
-		$("#NOutlet_button").show();
-		//alert ('s-6');
+		$("#NOutlet_button").hide();
+		//alert ('s-7');
 	
 	}
 	
@@ -3262,10 +3260,11 @@ function buttonCheck(){
 
 		$("#image_up_button").hide();
 		$("#NOutlet_button").show();
-		//alert ('s-6');
+		//alert ('s-8');
 	
 	}
-
+	
+	
 
 
 
@@ -3281,7 +3280,7 @@ function menupage(){
 	cancel_outlet();
 	var url = "#outletPage";
 	$.mobile.navigate(url);
-	//location.reload();
+	location.reload();
 	
 }
 

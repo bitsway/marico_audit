@@ -132,7 +132,10 @@ $(document).ready(function(){
 						
 				if ((localStorage.synced=='YES') & (localStorage.sync_date!=sync_date)){					
 					cancel_outlet();					
-			
+					
+					localStorage.attendanceFlag=0;
+					localStorage.attendanceType="";
+					
 					var url = "#login";
 					$.mobile.navigate(url);				
 				}
@@ -680,13 +683,15 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
 		  
 		  <div class="outletNameShow"> </div>
           
+          <div id="mar_cmbo_show"></div>
+          <input id="posm_qty" name="posm_Qty" type="number" style="height:42px; font-size:14px;" />
+          <a data-role="button"  onClick="add_posm()" >ADD </a>
+          
           <table id="tblPosm" class="ui-body-d ui-shadow table-stripe ui-responsive" data-role="table" data-theme="d"  data-mode="display:none" >
           	<tr>
-            	<td width="50%" >
-                	<div id="mar_cmbo_show"></div>                	
-          		</td>
-                <td width="40%" ><input id="posm_qty" name="posm_Qty" type="number" style="height:42px; font-size:14px;" /></td>
-                <td width="10%"><a data-role="button" data-mini="true"  onClick="add_posm()" >ADD </a></td>
+            	<td width="50%" >Item</td>
+                <td width="40%" >Qty</td>
+                <td width="10%"></td>
             </tr>          
           </table>
           
