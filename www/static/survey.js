@@ -221,9 +221,11 @@ function salfie_next_page(){
 							}else{
 								localStorage.attendanceFlag=0;
 								localStorage.attendanceType="";
-							}
-														
-							upload_salfie()							
+							}														
+							upload_salfie()
+						}else if(result=='Already Exists'){
+							localStorage.attendanceFlag=1;
+							$(".errMsg").html(result);							
 						}else{
 							$(".errMsg").html(result);						
 						}
@@ -3248,7 +3250,7 @@ function buttonCheck(){
 		$("#image_up_button").hide();
 		$("#NOutlet_button").show();
 		//alert ('s-8');
-		$("#submit_data_check").html("Submitted Successfully");
+		$("#submit_data_check").val("Successfully Submitted");		
 		$("#submit_data").html("");
 	
 	}
