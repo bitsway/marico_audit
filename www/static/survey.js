@@ -327,8 +327,6 @@ function shop_page_set() {
 	//alert (image_name)
 	var image = document.getElementById('shop_image_div');
     image.src = shop_image_path;
-		
-	
 	
 }
 
@@ -382,9 +380,6 @@ function unpaid_page_set() {
 	
 }
 
-
-
-
 //================ posm
 
 function add_posm(){	
@@ -403,8 +398,6 @@ function add_posm(){
 	
 }
 
-
-
 function posm_next_page(){		
 	
 	var posm_image_name=$("#posm_image_name_hidden").val();
@@ -422,8 +415,6 @@ function posm_next_page(){
 		
 		$('#surveyPage').trigger('create');
 	}
-	
-	
 }
 
 
@@ -460,7 +451,6 @@ function posm_page_set() {
     image.src = posm_image_path;	
 	
 }
-
 
 //================ competitor
 
@@ -500,9 +490,7 @@ function competitor_next_page(){
 		$.mobile.navigate(url);
 		
 		$('#surveyPage').trigger('create');
-	}
-	
-	
+	}	
 }
 
 
@@ -561,9 +549,7 @@ function self_position_next_page(){
 		$.mobile.navigate(url);
 		
 		$('#surveyPage').trigger('create');
-	}
-	
-	
+	}	
 }
 
 
@@ -2456,6 +2442,7 @@ function submit_data() {
 
 							if (result!='SUCCESS'){
 								$("#submit_data_check").html(result);
+								$("#submit_data").html('');
 							}
 							if (result=='SUCCESS'){
 								
@@ -2484,7 +2471,7 @@ function submit_data() {
 								
 								
 															
-								$("#submit_data_check").html("Data Synced Successfully");
+								$("#submit_data_check").html("");
 								$("#submit_data").html('');
 								localStorage.step_flag=1;
 								
@@ -3261,6 +3248,8 @@ function buttonCheck(){
 		$("#image_up_button").hide();
 		$("#NOutlet_button").show();
 		//alert ('s-8');
+		$("#submit_data_check").html("Submitted Successfully");
+		$("#submit_data").html("");
 	
 	}
 	
