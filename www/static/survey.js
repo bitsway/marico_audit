@@ -21,6 +21,9 @@ var noticeFlag=0;
 
 var temp_image_div='';
 
+localStorage.preLatitude=0;
+localStorage.preLongitude=0;
+
 //-------GET GEO LOCATION Start----------------------------
 function getlocationand_askhelp() { //location
     $("#lat").val(0);
@@ -30,20 +33,20 @@ function getlocationand_askhelp() { //location
 	$("#location_button").hide();
 	$("#submit_data").html("Confirming Location. Please Wait...");
 	
-	localStorage.placeLatLongCount=parseInt(localStorage.placeLatLongCount)+1
+	//localStorage.placeLatLongCount=parseInt(localStorage.placeLatLongCount)+1
 	//alert (parseInt(localStorage.placeLatLongCount))
 }
 
-localStorage.preLatitude=0;
-localStorage.preLongitude=0;
 	 
 // onSuccess Geolocation
 function onSuccess(position) {	
 	localStorage.latitude=position.coords.latitude;
 	localStorage.longitude=position.coords.longitude;
 	
-	localStorage.preLatitude=position.coords.latitude;
-	localStorage.preLongitude=position.coords.longitude;
+	if (localStorage.preLatitude==0 && localStorage.preLongitude==0){
+		localStorage.preLatitude=position.coords.latitude;
+		localStorage.preLongitude=position.coords.longitude;		
+	}	
 		
 	//alert (localStorage.latitude);
 	$("#lat").val(localStorage.latitude);
@@ -55,12 +58,13 @@ function onSuccess(position) {
 }
 	
 function onError(error) {
-	$("#submit_data").html('Please Ensure  Your GPS is On');
+	
+	//$("#submit_data").html('Please Ensure  Your GPS is On');
 	$("#sub_button").hide();
-	$("#location_button").show();
-	$("#lat").val(0);
-	$("#long").val(0);
-	localStorage.latlongSubmit=0;
+	$("#location_button").hide();
+	$("#lat").val(localStorage.preLatitude);
+	$("#long").val(localStorage.preLongitude);
+	localStorage.latlongSubmit=1;
 	buttonCheck();
 	
 	}
@@ -415,7 +419,7 @@ function posm_next_page(){
 		var url = "#competitorPage";
 		$.mobile.navigate(url);
 		
-		$('#surveyPage').trigger('create');
+		$('#competitorPage').trigger('create');
 	}
 }
 
@@ -491,7 +495,7 @@ function competitor_next_page(){
 		var url="#selfPositionPage";		
 		$.mobile.navigate(url);
 		
-		$('#surveyPage').trigger('create');
+		$('#selfPositionPage').trigger('create');
 	}	
 }
 
@@ -546,7 +550,7 @@ function self_position_next_page(){
 			$.mobile.navigate(url);
 	}else{
 		self_ready_data();		
-	
+						
 		var url = "#surveyPage";
 		$.mobile.navigate(url);
 		
@@ -598,6 +602,8 @@ function survey_next_page(){
 		}		
 		localStorage.surveyValue=survey_value;
 		
+		
+		
 		var url = "#submitPage";
 		$.mobile.navigate(url);	
 		$(url).trigger('create');
@@ -608,7 +614,7 @@ function survey_next_page(){
 
 
 //=================after select an outlet
-function clear_autho(){
+/*function clear_autho(){
 	localStorage.cm_id='';
 	localStorage.cm_pass='';
 	localStorage.routeString='';
@@ -652,7 +658,7 @@ function clear_autho(){
 	$.mobile.navigate(url);
 	$(url).trigger('create');
 	
-}
+}*/
 function div_change(){
 	localStorage.show_cancel=1
 	$("#outletCancel").show();
@@ -837,11 +843,11 @@ function cancel_outlet(){
 	localStorage.place_next_flag=0;
 	
 		
-	localStorage.latitude=0;
-	localStorage.longitude=0;
+	//localStorage.latitude=0;
+	//localStorage.longitude=0;
 	
 	
-	localStorage.latlongSubmit=0;
+	//localStorage.latlongSubmit=0;
 	localStorage.dataSubmit=0;
 	
 	localStorage.salfiedataSubmit=0;
@@ -858,7 +864,7 @@ function cancel_outlet(){
 	localStorage.selfdataSubmit=0;
 	
 	
-	localStorage.placeLatLongCount=0;
+	//localStorage.placeLatLongCount=0;
 	
 	
 	localStorage.outletException='undefined';
@@ -1583,7 +1589,7 @@ function select_outlet() {
 		$("#posm_qty").val('');
 		$("#copmA").val('');
 		
-		localStorage.latlongSubmit=0;
+		//localStorage.latlongSubmit=0;
 		localStorage.dataSubmit=0;		
 		localStorage.qpdsdataSubmit=0;		
 		localStorage.shopdataSubmit=0;
@@ -1591,7 +1597,7 @@ function select_outlet() {
 		localStorage.posmdataSubmit=0;
 		localStorage.compdataSubmit=0;
 		localStorage.selfdataSubmit=0;
-		localStorage.placeLatLongCount=0
+		//localStorage.placeLatLongCount=0
 				
 		
 		localStorage.m_new="";
@@ -1600,8 +1606,8 @@ function select_outlet() {
 		
 		localStorage.qpdsSkip=0;
 		
-		localStorage.latitude=0;
-		localStorage.longitude=0;
+		//localStorage.latitude=0;
+		//localStorage.longitude=0;
 		
 					
 		var selected_outletID_get=($("input:radio[name='RadioOutlet']:checked").val())		
@@ -2380,6 +2386,7 @@ function addPaidDisplay(){
 						alert ('Sorry Network not available');
 					}else{									
 						$(".errMsg").text(result);
+						
 												
 						var url = "#surveyPage";
 						$.mobile.navigate(url);
@@ -2397,7 +2404,7 @@ function addPaidDisplay(){
 function submit_data() { 
 	
 	//munu_page_check();
-	
+	$("#location_button").hide();
 	$("#sub_button").hide();
 	
 	$("#submit_data").html('<img height="40px" width="40px" src="loading.gif">');
@@ -2417,6 +2424,8 @@ function submit_data() {
 	}
 	
 	
+	
+		
 	$( "#sub_button_div").hide();
 	
 	if (localStorage.mar_distrib_data==undefined || localStorage.mar_distrib_data=="undefined"){
@@ -2425,6 +2434,7 @@ function submit_data() {
 	
 	var fdisplay_data=""; //localStorage.fdisplay_data_ready.replace('detaildetail','')
 	var qpds_data=localStorage.qpds_data_ready.replace('detaildetail','')
+	
 	
 	
 	//$("#submit_data_check").html(apipath+'syncSubmitData?cid='+localStorage.cid+'&cm_id='+localStorage.cm_id+'&cm_pass='+localStorage.cm_pass+'&synccode='+localStorage.synccode+'&route='+localStorage.selectedRoute+'&routeEx='+localStorage.routeException+'&outlet='+localStorage.selectedOutlet+'&scheduleDate='+ localStorage.selected_date +'&outletEx='+localStorage.outletException+'&channel='+localStorage.outletChannel+'&latlong='+latlong+'&visitDate='+visitDate+'&startTime='+localStorage.startTime+'&endTime='+endTime+'&giftImage='+giftImage+'&mhskus_data='+localStorage.mhskus_data_ready+'&npd_data='+localStorage.npd_data_ready+'&fdisplay_data='+fdisplay_data+'&qpds_data='+qpds_data+'&gift_data='+localStorage.gift_data_ready+'&place_data='+localStorage.place_data_ready+'&shop_data='+localStorage.shop_data_ready);	
@@ -2703,7 +2713,7 @@ function onFailSelf(message) {
 function upload_salfie(){
 	//alert('upload salfie')
 	localStorage.step_flag=0; 
-	localStorage.salfiedataSubmit=0;
+	localStorage.salfiedataSubmit=1;
 	//step_flag=2; //1 fd , 2 qpds, 3 gift
 	file_upload_error = 0;
 	//$( "#sub_qpds_button").hide();
@@ -2741,7 +2751,7 @@ function upload_shop(){
 			//$("#submit_data").html("");				
 
 	}
-	upload_unpaid()
+	//upload_unpaid()
 	//buttonCheck();
 
 }
@@ -2771,7 +2781,7 @@ function upload_unpaid(){
 	}
 	
 	
-	upload_qpds();
+	//upload_qpds();
 
 }
 
@@ -2811,7 +2821,7 @@ function upload_qpds(){
 	else{
 		 localStorage.qpdsdataSubmit=1;
 	}
-	upload_posm()
+	//upload_posm()
 	 
 }
 
@@ -2839,7 +2849,7 @@ function upload_posm(){
 	}
 	
 	
-	upload_competitor();
+	//upload_competitor();
 
 }
 
@@ -2867,12 +2877,13 @@ function upload_competitor(){
 	}
 	
 	
-	upload_self();
+	//upload_self();
 
 }
 
 
 function upload_self(){
+	//alert(localStorage.step_flag);
 	//alert('upload unpaid')
 	localStorage.step_flag=7; 
 	localStorage.selfdataSubmit=1;
@@ -2891,13 +2902,15 @@ function upload_self(){
 			$("#submit_data").html("self Image Not Available");
 			//$("#submit_data").html("");
 	}
+	
+	
 		
 	buttonCheck();
 
 }
 
 
-function check_step() {
+function check_step() {	
 	
 	if (localStorage.step_flag==0){
 		upload_salfie();
@@ -2994,7 +3007,7 @@ function win(r) {
 			$("#submit_data").html("Unpaid Sync Completted");
 			localStorage.unpaiddataSubmit=1;
 			upload_unpaid();
-			//buttonCheck();
+			buttonCheck();
 		}
 		
 		if (localStorage.step_flag==3){  // Paid
@@ -3023,18 +3036,18 @@ function win(r) {
 			$("#submit_data").html("Self Sync Completted");
 			localStorage.selfdataSubmit=1;
 			upload_self();
-			buttonCheck();
+			buttonCheck();			
 		}
 	
-		if (localStorage.step_flag==7){  // Gift
-			//alert('win-7')
+		/*if (localStorage.step_flag==7){  // Gift
+			alert('win-7')
 			$("#submit_data").html("All Sync Completted");
 			localStorage.shopdataSubmit=1;
 			cancel_outlet()
-			buttonCheck();
-		}	
+			//buttonCheck();
+		}	*/
 		
-		localStorage.step_flag=0; //Reset step flag
+		localStorage.step_flag=1; //Reset step flag
 	}
 }
 
@@ -3086,7 +3099,6 @@ function fail(error) {
 		buttonCheck();
 	}
 	
-		
 	step_flag=0; //Reset step flag
 }
 
@@ -3153,29 +3165,30 @@ function checkQtyQpds(i){
 }
 
 //		==========================Button check start==============
-function buttonCheck(){
-		if ((localStorage.latlongSubmit==0) && (localStorage.placeLatLongCount >3)){
-		localStorage.latlongSubmit=1
-		//alert ('asd');
-		}
+function buttonCheck(){	
+	
 	if (localStorage.latlongSubmit==0){
-		//alert ('1')
-		
 		$("#location_button").show();
 		$("#sub_button_div").hide();
-
-		$("#image_up_button").hide();
-		$("#NOutlet_button").hide();
-				
 		
-		$("#lat").val(0);
-		$("#long").val(0);
-		//alert ('asd');
+		$("#image_up_button").hide();
+		$("#NOutlet_button").hide();		
+				
+		//alert ('s-L');
+	
 	}
 	
-	// && (localStorage.dataSubmit==0)
+	if (localStorage.dataSubmit==0){
+		$("#location_button").hide();
+		$("#sub_button_div").show();
+		
+		$("#image_up_button").hide();
+		$("#NOutlet_button").hide();
+		//alert ('s-0');
+		
+	}
 	
-	if ((localStorage.latlongSubmit==1) && ((localStorage.shopdataSubmit==0) || (localStorage.unpaiddataSubmit==0) || (localStorage.qpdsdataSubmit==0)|| (localStorage.posmdataSubmit==0)|| (localStorage.compdataSubmit==0)|| (localStorage.selfdataSubmit==0))){
+	if ((localStorage.latlongSubmit==1)&& (localStorage.dataSubmit==1) && ((localStorage.shopdataSubmit==0) || (localStorage.unpaiddataSubmit==0) || (localStorage.qpdsdataSubmit==0)|| (localStorage.posmdataSubmit==0)|| (localStorage.compdataSubmit==0)|| (localStorage.selfdataSubmit==0))){
 		$("#location_button").hide();
 		$("#sub_button_div").show();
 		
@@ -3186,7 +3199,7 @@ function buttonCheck(){
 	
 	}
 	
-	if ((localStorage.latlongSubmit==1) && (localStorage.dataSubmit==1) && ((localStorage.shopdataSubmit==0) || (localStorage.unpaiddataSubmit==0) || (localStorage.qpdsdataSubmit==0)|| (localStorage.posmdataSubmit==0)|| (localStorage.compdataSubmit==0)|| (localStorage.selfdataSubmit==0))){
+	if ((localStorage.latlongSubmit==1) && (localStorage.dataSubmit==1) && ((localStorage.shopdataSubmit==1) || (localStorage.unpaiddataSubmit==0) || (localStorage.qpdsdataSubmit==0)|| (localStorage.posmdataSubmit==0)|| (localStorage.compdataSubmit==0)|| (localStorage.selfdataSubmit==0))){
 		$("#location_button").hide();
 		$("#sub_button_div").hide();
 
@@ -3195,7 +3208,7 @@ function buttonCheck(){
 		//alert ('s-2');	
 	}
 	
-	if ((localStorage.latlongSubmit==1) && (localStorage.dataSubmit==1) && ((localStorage.shopdataSubmit==1) || (localStorage.unpaiddataSubmit==0) || (localStorage.qpdsdataSubmit==0)|| (localStorage.posmdataSubmit==0)|| (localStorage.compdataSubmit==0)|| (localStorage.selfdataSubmit==0))){
+	if ((localStorage.latlongSubmit==1) && (localStorage.dataSubmit==1) && ((localStorage.shopdataSubmit==1) || (localStorage.unpaiddataSubmit==1) || (localStorage.qpdsdataSubmit==0)|| (localStorage.posmdataSubmit==0)|| (localStorage.compdataSubmit==0)|| (localStorage.selfdataSubmit==0))){
 		$("#location_button").hide();
 		$("#sub_button_div").hide();
 
@@ -3205,7 +3218,7 @@ function buttonCheck(){
 	
 	}
 	
-	if ((localStorage.latlongSubmit==1) && (localStorage.dataSubmit==1) && ((localStorage.shopdataSubmit==1) || (localStorage.unpaiddataSubmit==1) || (localStorage.qpdsdataSubmit==0|| (localStorage.posmdataSubmit==0)|| (localStorage.compdataSubmit==0)|| (localStorage.selfdataSubmit==0)))){
+	if ((localStorage.latlongSubmit==1) && (localStorage.dataSubmit==1) && ((localStorage.shopdataSubmit==1) || (localStorage.unpaiddataSubmit==1) || (localStorage.qpdsdataSubmit==1|| (localStorage.posmdataSubmit==0)|| (localStorage.compdataSubmit==0)|| (localStorage.selfdataSubmit==0)))){
 		$("#location_button").hide();
 		$("#sub_button_div").hide();
 
@@ -3215,7 +3228,7 @@ function buttonCheck(){
 	
 	}
 	
-	if ((localStorage.latlongSubmit==1) && (localStorage.dataSubmit==1) && ((localStorage.shopdataSubmit==1) || (localStorage.unpaiddataSubmit==1) || (localStorage.qpdsdataSubmit==1)|| (localStorage.posmdataSubmit==0)|| (localStorage.compdataSubmit==0)|| (localStorage.selfdataSubmit==0))){
+	if ((localStorage.latlongSubmit==1) && (localStorage.dataSubmit==1) && ((localStorage.shopdataSubmit==1) || (localStorage.unpaiddataSubmit==1) || (localStorage.qpdsdataSubmit==1)|| (localStorage.posmdataSubmit==1)|| (localStorage.compdataSubmit==0)|| (localStorage.selfdataSubmit==0))){
 		$("#location_button").hide();
 		$("#sub_button_div").hide();
 
@@ -3224,7 +3237,7 @@ function buttonCheck(){
 		//alert ('s-5');	
 	}
 	
-	if ((localStorage.latlongSubmit==1) && (localStorage.dataSubmit==1) && ((localStorage.shopdataSubmit==1) || (localStorage.unpaiddataSubmit==1) || (localStorage.qpdsdataSubmit==1)|| (localStorage.posmdataSubmit==1)|| (localStorage.compdataSubmit==0)|| (localStorage.selfdataSubmit==0))){
+	if ((localStorage.latlongSubmit==1) && (localStorage.dataSubmit==1) && ((localStorage.shopdataSubmit==1) || (localStorage.unpaiddataSubmit==1) || (localStorage.qpdsdataSubmit==1)|| (localStorage.posmdataSubmit==1)|| (localStorage.compdataSubmit==1)|| (localStorage.selfdataSubmit==0))){
 		$("#location_button").hide();
 		$("#sub_button_div").hide();
 
@@ -3233,33 +3246,17 @@ function buttonCheck(){
 		//alert ('s-6');
 	
 	}
-	if ((localStorage.latlongSubmit==1) && (localStorage.dataSubmit==1) && ((localStorage.shopdataSubmit==1) || (localStorage.unpaiddataSubmit==1) || (localStorage.qpdsdataSubmit==1)|| (localStorage.posmdataSubmit==1)|| (localStorage.compdataSubmit==1)|| (localStorage.selfdataSubmit==0))){
-		$("#location_button").hide();
-		$("#sub_button_div").hide();
-
-		$("#image_up_button").show();
-		$("#NOutlet_button").hide();
-		//alert ('s-7');
-	
-	}
-	
 	if ((localStorage.latlongSubmit==1) && (localStorage.dataSubmit==1) && ((localStorage.shopdataSubmit==1) || (localStorage.unpaiddataSubmit==1) || (localStorage.qpdsdataSubmit==1)|| (localStorage.posmdataSubmit==1)|| (localStorage.compdataSubmit==1)|| (localStorage.selfdataSubmit==1))){
 		$("#location_button").hide();
 		$("#sub_button_div").hide();
 
 		$("#image_up_button").hide();
 		$("#NOutlet_button").show();
-		//alert ('s-8');
-		$("#submit_data_check").val("Successfully Submitted");		
+		//alert ('s-7');
+		$("#submit_data_check").html("Successfully Submitted");		
 		$("#submit_data").html("");
 	
-	}
-	
-	
-
-
-
-
+	}	
 
 }
 

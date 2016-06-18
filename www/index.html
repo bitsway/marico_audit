@@ -69,10 +69,17 @@ $(document).ready(function(){
 				$(".errMsg").html("");
 				$("#versionDiv").hide();
 								
-				buttonCheck();
+				//buttonCheck();
 				$("#login_image").hide();
 				$("#routeS_image").hide();
 				
+				$("#location_button").show();
+				$("#sub_button_div").hide();
+				
+				$("#image_up_button").hide();
+				$("#NOutlet_button").hide();	
+				
+								
 				$("#lat").val(localStorage.latitude);
 				$("#long").val(localStorage.longitude);
 												
@@ -140,10 +147,16 @@ $(document).ready(function(){
 					$.mobile.navigate(url);				
 				}
 				
-				
+				if (localStorage.latlongSubmit==1){
+					$("#location_button").hide();
+					$("#sub_button_div").show();
+				}else{
+					$("#location_button").show();
+					$("#sub_button_div").hide();
+				}
 				
 				//---check version				
-				chkVersion();
+				//chkVersion();
 								
 				//shop_page_set();				
 				
@@ -153,9 +166,7 @@ $(document).ready(function(){
 												
 				$(".outletNameShow").html(localStorage.outletIDnameShow);
 				
-				$("#lat").val(localStorage.latitude);
-				$("#long").val(localStorage.longitude);
-				
+								
   				
 		});
 
