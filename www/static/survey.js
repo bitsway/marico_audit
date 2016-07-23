@@ -8,7 +8,7 @@ var apipath_image = 'http://e3.businesssolutionapps.com/maricoaudit/';
 
 
 // local
-//var apipath='http://127.0.0.1:8000/marico/syncmobile_schedule_160614/';
+//var apipath='http://127.0.0.1:8000/marico/syncmobile_schedule_160723/';
 //var apipath_image = 'http://127.0.0.1:8000/marico/';
 
 
@@ -2446,7 +2446,7 @@ function submit_data() {
 	
 	$.ajax({
 				type: 'POST',
-				url: apipath+'syncSubmitData?cid='+localStorage.cid+'&cm_id='+localStorage.cm_id+'&cm_pass='+localStorage.cm_pass+'&synccode='+localStorage.synccode+'&route='+localStorage.selectedRoute+'&routeEx='+localStorage.routeException+'&outlet='+localStorage.selectedOutlet+'&scheduleDate='+ localStorage.selected_date +'&outletEx='+localStorage.outletException+'&channel='+localStorage.outletChannel+'&latlong='+latlong+'&visitDate='+visitDate+'&startTime='+localStorage.startTime+'&endTime='+endTime+'&giftImage=&mhskus_data=&npd_data=&fdisplay_data=&qpds_data='+encodeURIComponent(qpds_data)+'&salfie_data=&gift_data=&place_data=&shop_data=&unpaid_data=&posm_data=&competitor_data=&self_data=&survey_data=0,0,0,0,0,0',
+				url: apipath+'syncSubmitData?cid='+localStorage.cid+'&cm_id='+localStorage.cm_id+'&cm_pass='+localStorage.cm_pass+'&synccode='+localStorage.synccode+'&route='+localStorage.selectedRoute+'&routeEx='+localStorage.routeException+'&outlet='+localStorage.selectedOutlet+'&scheduleDate='+ localStorage.selected_date +'&outletEx='+localStorage.outletException+'&channel='+localStorage.outletChannel+'&latlong='+latlong+'&visitDate='+visitDate+'&startTime='+localStorage.startTime+'&endTime='+endTime+'&giftImage=&mhskus_data=&npd_data=&fdisplay_data=&qpds_data='+encodeURIComponent(qpds_data)+'&salfie_data=&gift_data=&place_data=&shop_data='+localStorage.shop_data_ready+'&unpaid_data=&posm_data=&competitor_data=&self_data=&survey_data=0,0,0,0,0,0',
 				 success: function(result) {	
 						
 						if (result==''){
@@ -2962,8 +2962,8 @@ function check_step() {
 function uploadPhoto(imageURI, imageName) {
  
  	//alert(imageURI+'--'+imageName)  
-	win()
- /* var options = new FileUploadOptions();
+	//win()
+  var options = new FileUploadOptions();
   options.fileKey="upload";
 //  options.fileName=imageURI.substr(imageURI.lastIndexOf('/')+1);
   options.fileName=imageName;
@@ -2980,7 +2980,7 @@ function uploadPhoto(imageURI, imageName) {
 
 //ft.upload(imageURI, encodeURI("http://127.0.0.1:8000/marico/syncmobile_schedule/fileUploader/"),win,fail,options);
 
- ft.upload(imageURI, encodeURI("http://e4.businesssolutionapps.com/marico_image/syncmobile/fileUploader/"),win,fail,options);*/
+ ft.upload(imageURI, encodeURI("http://e4.businesssolutionapps.com/marico_image/syncmobile/fileUploader/"),win,fail,options);
 }
 
 function win(r) {
@@ -2998,7 +2998,7 @@ function win(r) {
 	}else{
 					
 		if (localStorage.step_flag==1){  // Shop
-			alert('win-1')
+			//alert('win-1')
 			$("#submit_data").html("Shop Sync Completted");
 			localStorage.shopdataSubmit=1;
 			upload_shop();
