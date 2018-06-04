@@ -110,6 +110,11 @@ $(document).ready(function(){
 				$("#competitor").html(localStorage.competitorCmbo);				
 				$("#competitorQ").html(localStorage.competitorQCmbo);
 				
+				$("#comInfoStoc").html(localStorage.competitorInfo);
+				//$("#comImageDisplay").html(localStorage.competitorImage);
+				$("#mustHaveSku").html(localStorage.mustHaveSkau);
+				
+				
 				if (localStorage.show_cancel==0){
 				 cancel_outlet();
 				}
@@ -188,15 +193,15 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
 				<br><br><br>
 				
 				  <ul data-role="listview">							
-                        <div style="background:#008A8A; height:1px"></div>
-                        <li id="link_route"><a onClick="check_route()"><img src="visit_plan.png"></a></li>
-                        <div style="background:#008A8A; height:1px"></div>
-                        </br></br></br>
-                        <div style="background:#008A8A; height:1px"></div>
-                        <li><a onClick="syncPage()" ><img src="sync.png"></a></li>
-                        <div style="background:#008A8A; height:1px"></div>
-                        <!--<li><a onClick="clear_autho()" href="#login">Clear Authorization</a></li>
-                        <div style="background:#008A8A; height:1px"></div>-->
+                    <!--<div style="background:#008A8A; height:1px"></div>
+                    	<li id="link_route"><a onClick="check_route()"><img src="visit_plan.png"></a></li>
+                    <div style="background:#008A8A; height:1px"></div>
+                    </br></br></br>-->
+                    <div style="background:#008A8A; height:1px"></div>
+                    	<li><a onClick="syncPage()" ><img src="sync.png"></a></li>
+                    <div style="background:#008A8A; height:1px"></div>
+                    <!--<li><a onClick="clear_autho()" href="#login">Clear Authorization</a></li>
+                    <div style="background:#008A8A; height:1px"></div>-->
                 </ul>
                 <br>
 				<div style="margin:100%;"></div>
@@ -204,7 +209,7 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
 				
 			</div><!-- /panel -->
             
-             <div data-theme="c" data-role="header" data-position="fixed" > 
+             <div data-theme="c" data-role="header" data-position="fixed"  > 
 			
 			    <a style="height:18px;"  href="#routePanel"  ><img src="header_logo.png"  ></a>
                 <a style="height:18px;" class="ui-btn ui-shadow ui-corner-all ui-btn-icon-right " onClick="exit()" ><img src="exit.png"> </a>
@@ -215,13 +220,14 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
 			<div data-role="content" align="center" style="height:90%;" >
             	<br><br>
 				
-				<font color="#CCFFCC" face="Arial, Helvetica, sans-serif" size="-1">       
+				<font color="#CCFFCC" face="Arial, Helvetica, sans-serif" size="-1">
+                <a data-role="button" onClick="attandance()" ><strong style="font-size:24px;">Attendance</strong></a>       
 				<a data-role="button" onClick="marketPJP_check()" ><img src="market_pjp.png"></a>
-               <a data-role="button" onClick="chkNotice(1)" ><img src="notice_icon.png"></a>
-               <a data-role="button" onClick="attandance()" >Attendance</a>				
+               <a data-role="button" onClick="chkNotice(1)" ><img src="notice_icon.png"></a>               	
+               <!--<a data-role="button" onClick="competitor_info()" >COMPETITOR INFO</a>-->				
                 </font>
-                <br/><br/>
-                <div align="right"  style="color:#A4C5D9; width:100%; ">Version:20160723.1</div>
+                <br/>
+                <div align="right"  style="color:#A4C5D9; width:100%; ">Version:20171231.1</div>
                 <div class="errMsg" style="color:#006291"></div>
                 <br/><br/><br/>                
                 <!--<div id="versionDiv" style="color:#006291; height:30px; text-align:center; padding:5px; background-color:#FFFFF4; font-size:12px; border-radius:3px;"><a href="http://im-gp.com/d/maricoaudit/" target="new">New Version Available</a></div>-->                
@@ -235,7 +241,7 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
         	
             <div data-theme="c" data-role="header" data-position="fixed" >
 			
-			   <a style="height:18px;"   onClick="munu_page_check()"  class="ui-btn-left ui-btn-icon-notext"><img src="header_logo.png"></a>
+			   <a style="height:18px;"   onClick="menu_page()"  class="ui-btn-left ui-btn-icon-notext"><img src="header_logo.png"></a>
                <a style="height:18px;" class="ui-btn ui-shadow ui-corner-all ui-btn-icon-right " onClick="exit()" ><img src="exit.png"> </a>
                 <h3>Login</h3>
             </div>
@@ -244,7 +250,7 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
                </br></br>
 				<font color="#CCFFCC" face="Arial, Helvetica, sans-serif" size="-1"> 
 				<input type="text" name="cm_id" id="cm_id" placeholder="CM ID" value="">
-				<input type="number" name="cm_pass" id="cm_pass" placeholder="CM Pass" value="">
+				<input type="password" name="cm_pass" id="cm_pass" placeholder="CM Pass" value="" >
                 </font>                
 				
                 <div id="login_image" ><img height="40px" width="40px" src="loading.gif"></div>
@@ -267,7 +273,7 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
      <!--  ====================== routePage ======================  -->
 		<div data-theme="c" data-role="page" id="routePage">
 			<div data-theme="c" data-role="header" data-position="fixed" >
-			    <a style=" height:18px"   onClick="munu_page_check()"  class="ui-btn-left ui-btn-icon-notext"><img src="header_logo.png"></a>
+			    <a style=" height:18px"   onClick="menu_page()"  class="ui-btn-left ui-btn-icon-notext"><img src="header_logo.png"></a>
                 <a style="height:18px" data-rel="back" data-iconpos="left" class="ui-btn-right"><img src="back1.png"></a>
                 <h3>Select Route/Beat</h3>
             </div>
@@ -316,14 +322,15 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
 		</div><!-- /route page -->
         
         <!--=====================Route exception page end=============-->
+        
     
     <!--  ===================    outletPage ========================  -->
 		<div data-theme="c" data-role="page" id="outletPage">
 			
 			<div data-theme="c" data-role="header" data-position="fixed" >
-			    <a id="menujpj" style="height:18px"   onClick="munu_page_check()"  class="ui-btn-left ui-btn-icon-notext"><img src="header_logo.png"></a>
+			    <a id="menujpj" style="height:18px"   onClick="check_route()"  class="ui-btn-left ui-btn-icon-notext"><img src="header_logo.png"></a>
                 <a id="backjpj" style="height:18px" data-rel="back" data-iconpos="left" class="ui-btn-right"><img src="back1.png"></a>
-               <!-- <a id="backjpj" data-role="button" data-rel="back" data-icon="arrow-l" data-iconpos="left" class="ui-btn-right">Back</a>-->
+               
                 <h3>Select Outlet</h3>
             </div>
 		    
@@ -429,24 +436,153 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
 		<div data-theme="c" data-role="header" data-position="fixed" >
 			    <a style="height:18px" onClick="munu_page_check()"  class="ui-btn-left ui-btn-icon-notext"><img src="header_logo.png"></a>
                 <a style="height:18px" data-rel="back" data-iconpos="left" class="ui-btn-right"><img src="back1.png"></a>
-                <h3>Promotion/Utshob</h3>
+                <h3>Promotion</h3>
             </div>
 		    
 			<div  data-role="content" style="height:90%" >
-             <a onClick="showPaidDisplay()" data-role="button" class="ui-btn ui-btn-inline" style="float:right;">New</a>
+             <!--<a onClick="showPaidDisplay()" data-role="button" class="ui-btn ui-btn-inline" style="float:right;">New</a>-->
             <div id="qpds"></div>
 				</br></br>
                 <a data-role="button" onClick="qpds_ready_data();" >Next</a>
+                <br/><br/>
+                <div class="errMsg" style="color:#006291"></div>
 				<br/><br/></br></br></br></br></br></br><br/><br/><br/>
 				
-              <div class="errMsg" style="color:#006291"></div>
-                <br/><br/>
                 <br/><br/><br/>
 	  </div>
 
 	</div>
         
     <!--=====================QPDS  page end=========================-->
+    
+    <!--==============COMPETITOR INFO Start================-->
+        <div data-theme="c" data-role="page" id="competitor_info_stock">
+		<div data-theme="c" data-role="header" data-position="fixed" >
+			    <a style="height:18px" onClick="munu_page_check()"  class="ui-btn-left ui-btn-icon-notext"><img src="header_logo.png"></a>
+                <a style="height:18px" data-rel="back" data-iconpos="left" class="ui-btn-right"><img src="back1.png"></a>
+                <h3><span style="font-size:14px; text-align:center; font-weight:bold;">Competitor Info</span></h3>
+            </div>
+		    
+			<div  data-role="content" style="height:90%" >
+            <br/><br/>
+            <div class="outletNameShow"> </div>
+            <div style="padding:10px 0px 15px 0px"><strong>Stock</strong></div>
+            <div id="comInfoStoc"></div>
+            
+				</br></br>
+                <a data-role="button" onClick="competitor_info_stock_data();" >Next</a>
+				<br/><br/></br></br></br></br></br></br><br/><br/><br/>
+				
+              <div class="errMsg" style="color:#006291"></div>
+                <br/><br/>
+                <br/><br/><br/>
+	  </div>
+	</div>
+    
+    
+    <div data-theme="c" data-role="page" id="competitor_info_display">
+		<div data-theme="c" data-role="header" data-position="fixed" >
+			    <a style="height:18px" onClick="munu_page_check()"  class="ui-btn-left ui-btn-icon-notext"><img src="header_logo.png"></a>
+                <a style="height:18px" data-rel="back" data-iconpos="left" class="ui-btn-right"><img src="back1.png"></a>
+                <h3><span style="font-size:14px; text-align:center; font-weight:bold;">Competitor Info</span></h3>
+            </div>
+		    
+			<div  data-role="content" style="height:90%" >
+            <br/><br/>
+            <div class="outletNameShow"> </div>
+            <div style="padding:10px 0px 15px 0px"><strong>Display</strong></div>
+            <!--<div id="comImageDisplay"></div>-->
+            <a data-role="button" id="btn_take_pic_display" onClick="getAchivementImage_display();" class="ui-btn" >Take Picture</a>       
+            <img src="" width="128" height="128" alt="Image1" id="myImageA_display" />        
+            <input name="achPhoto_display" id="achPhoto_display" value=""  type="hidden">
+            <input name="achPhoto_display_div" id="achPhoto_display_div" value=""  type="hidden">
+            <input name="achPhoto_display_name" id="achPhoto_display_name" value=""  type="hidden">
+			</br></br>
+            
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td>Display Period (date): </td>
+                    <td ><input type="date" id="fromDate" >to</td>
+                  </tr>
+                  <tr>
+                  	<td></td>
+                    <td ><input type="date" id="toDate" ></td>
+                  </tr>
+                  <tr>
+                  	<td>Monthly Pay Out : </td>
+                    <td><input type="number" id="monthlyTK" name="monthlyTK" placeholder="TK" ></td>
+                  </tr>
+                </table>
+
+             </br>
+                <a data-role="button" onClick="competitor_info_display_data();" >Next</a>
+				<br/><br/>
+				
+              <div class="errMsg" style="color:#006291"></div>
+                <br/><br/>
+                <br/><br/><br/>
+	  </div>
+	</div>  
+    
+    
+    
+    <div data-theme="c" data-role="page" id="competitor_info_posm">
+		<div data-theme="c" data-role="header" data-position="fixed" >
+			    <a style="height:18px" onClick="munu_page_check()"  class="ui-btn-left ui-btn-icon-notext"><img src="header_logo.png"></a>
+                <a style="height:18px" data-rel="back" data-iconpos="left" class="ui-btn-right"><img src="back1.png"></a>
+                <h3><span style="font-size:14px; text-align:center; font-weight:bold;">Competitor Info</span></h3>
+            </div>
+		    
+			<div  data-role="content" style="height:90%" >
+            <br/><br/>
+            <div class="outletNameShow"> </div>
+            <div style="padding:10px 0px 15px 0px"><strong>POSM</strong></div>
+            <!--<div id="comImageDisplay"></div>-->
+            <a data-role="button" id="btn_take_pic_posm" onClick="getAchivementImage_posm();" class="ui-btn" >Take Picture</a>       
+            <img src="" width="128" height="128" alt="Image1" id="myImageA_posm" />        
+            <input name="achPhoto_posm" id="achPhoto_posm" value=""  type="hidden">
+            <input name="achPhoto_posm_name" id="achPhoto_posm_name" value=""  type="hidden">
+            <input name="achPhoto_posm_div" id="achPhoto_posm_div" value=""  type="hidden">
+			</br> </br>
+                <a data-role="button" onClick="must_have_sku();" >Next</a>
+				<br/><br/></br></br></br></br></br></br><br/><br/><br/>
+				
+              <div class="errMsg" style="color:#006291"></div>
+                <br/><br/>
+                <br/><br/><br/>
+	  </div>
+	</div>
+    
+    
+    
+    <div data-theme="c" data-role="page" id="must_have_sku">
+		<div data-theme="c" data-role="header" data-position="fixed" >
+			    <a style="height:18px" onClick="munu_page_check()"  class="ui-btn-left ui-btn-icon-notext"><img src="header_logo.png"></a>
+                <a style="height:18px" data-rel="back" data-iconpos="left" class="ui-btn-right"><img src="back1.png"></a>
+                <h3>Must Have Sku</h3>
+            </div>
+		    
+			<div  data-role="content" style="height:90%" >
+            <br/><br/>
+            <div class="outletNameShow"> </div>
+            <table width="100%" border="0" cellspacing="0" cellpadding="0" style="font-weight:bold;padding:10px 0px 15px 0px">
+              <tr>
+                <td>Channel :</td>
+                <td><div id="mustHaveChannel">UNG</div></td>
+              </tr>
+            </table>
+            <div id="mustHaveSku"></div>
+            
+				</br></br>
+                <a data-role="button" onClick="must_have_sku_data();" >Next</a>
+				<br/><br/></br></br></br></br></br></br><br/><br/><br/>
+				
+              <div class="errMsg" style="color:#006291"></div>
+                <br/><br/>
+                <br/><br/><br/>
+	  </div>
+	</div>  
+        <!--=============COMPETITOR INFO End=================-->
 	
      <!-- ============================wait page Start============================-->
     
@@ -458,6 +594,8 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
             </div>
 		    
 			<div  data-role="content" style="height:90%" >
+            	</br>
+                </br>
                 <div class="outletNameShow"> </div>
                 </br>
                 </br>
@@ -509,7 +647,7 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
             </div>
 		    
 			<div  data-role="content" style="height:90%;"  >
-            <br/><br/>
+            <br/>
             <div id="notice_list_show"></div>
                
                <!--<div id="submit_data"></div>-->
@@ -526,7 +664,7 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
 		<div data-theme="c" data-role="header" data-position="fixed" >
 			    <a style="height:18px" onClick="munu_page_check()"  class="ui-btn-left ui-btn-icon-notext"><img src="header_logo.png"></a>
                 <a style="height:18px" data-rel="back" data-iconpos="left" class="ui-btn-right"><img src="back1.png"></a>
-                <h3>Outside/Signboard</h3>
+                <h3>Shop-sign/Marker</h3>
             </div>
 		    
 			<div  data-role="content" style="height:90%" >
@@ -565,10 +703,12 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
 				<!--<a data-role="button" onClick="outlet_next_page();getlocationand_askhelp();" >Next</a>getlocationand_askhelp();-->
 				<a data-role="button" onClick="outlet_next_page();" >Next</a>
 				</div>
+                <br/><br/>
+                <div class="errMsg" style="color:#006291"></div>
+                
 				<br/><br/></br></br></br></br></br></br><br/><br/><br/>
 				
-              <div class="errMsg" style="color:#006291"></div>
-                <br/><br/>
+              
                 <br/><br/><br/>
 	  </div>
 
@@ -580,13 +720,14 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
     
     <div data-theme="c" data-role="page" id="salfiePage">
 		<div data-theme="c" data-role="header" data-position="fixed" >
-			    <a style="height:18px" onClick="munu_page_check()"  class="ui-btn-left ui-btn-icon-notext"><img src="header_logo.png"></a>
-                <a style="height:18px" data-rel="back" data-iconpos="left" class="ui-btn-right"><img src="back1.png"></a>
+			    <a style="height:18px" onClick="menu_page()"  class="ui-btn-left ui-btn-icon-notext"><img src="header_logo.png"></a>
+                <a style="height:18px" data-rel="back" data-iconpos="left" class="ui-btn-right" onClick="backClick();"><img src="back1.png"></a>
                 <h3>Selfie</h3>
             </div>
 		    
-			<div  data-role="content" style="height:90%" >		  		  
+			<div  data-role="content">		  		  
 		  	<br/><br/>
+            <div id="currentDate" style="text-align:center; font-size:20px; font-weight:bold;"></div>
             <ul data-role="listview" data-inset="true" data-mini="true">               
                 <li style="background-color:#F2F2F2;">Attendance Type</li>                
                 <li class="ui-field-contain">
@@ -606,12 +747,10 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
 				
 				<!--<a data-role="button" onClick="outlet_next_page();getlocationand_askhelp();" >Next</a>-->
 				<a data-role="button" onClick="salfie_next_page();" >Next</a>
-				
+				<br/>
+                <div class="errMsg" style="color:#006291"></div>
 				<br/><br/></br></br></br></br></br></br><br/><br/><br/>
 				
-              <div class="errMsg" style="color:#006291"></div>
-                <br/><br/>
-                <br/><br/><br/>
 	  </div>
 
 	</div>
